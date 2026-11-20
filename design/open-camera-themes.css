@@ -1,0 +1,129 @@
+/* Open Camera themes. Apply a theme with data-theme on the document root. */
+
+/* Midnight Blue. Холодное стекло и синий свет ночного города. */
+:is(:root,.theme-mini)[data-theme="midnight-blue"] {
+  color-scheme: dark;
+  --bg: #111925;
+  --card-bg: #1a2433;
+  --accent: #559bff;
+  --text: #eff5fd;
+  --glow: #367fff;
+}
+
+/* Obsidian. Угольное стекло с холодным серебряным бликом. */
+:is(:root,.theme-mini)[data-theme="obsidian"] {
+  color-scheme: dark;
+  --bg: #0d0e10;
+  --card-bg: #1c1e22;
+  --accent: #c9cdd4;
+  --text: #f1f2f4;
+  --glow: #929cab;
+}
+
+/* Nordic Frost. Светлое матовое стекло с ледяным голубым светом. */
+:is(:root,.theme-mini)[data-theme="nordic-frost"] {
+  color-scheme: light;
+  --bg: #edf3f8;
+  --card-bg: #fbfdff;
+  --accent: #357eb9;
+  --text: #182c3d;
+  --glow: #77baf0;
+}
+
+/* Forest Sanctuary. Мшистый зелёный фон и мягкое неоновое свечение. */
+:is(:root,.theme-mini)[data-theme="forest-sanctuary"] {
+  color-scheme: dark;
+  --bg: #111b15;
+  --card-bg: #1c2b21;
+  --accent: #83e78d;
+  --text: #edf7ed;
+  --glow: #51dc72;
+}
+
+/* Cyberpunk Neon. Фиолетовое стекло с ярким розовым неоном. */
+:is(:root,.theme-mini)[data-theme="cyberpunk-neon"] {
+  color-scheme: dark;
+  --bg: #171024;
+  --card-bg: #271936;
+  --accent: #ff62c9;
+  --text: #fff0fc;
+  --glow: #ff36bf;
+}
+
+/* Desert Dusk. Песочно-коричневое стекло и терракотовый свет заката. */
+:is(:root,.theme-mini)[data-theme="desert-dusk"] {
+  color-scheme: dark;
+  --bg: #2b1d17;
+  --card-bg: #3e2b21;
+  --accent: #f0a274;
+  --text: #fff1e6;
+  --glow: #ec824c;
+}
+
+/* Monochrome. Градации серого от графита до чёрного и белый свет. */
+:is(:root,.theme-mini)[data-theme="monochrome"] {
+  color-scheme: dark;
+  --bg: #121212;
+  --card-bg: #262626;
+  --accent: #ffffff;
+  --text: #f1f1f1;
+  --glow: #cccccc;
+}
+
+/* Solarized. Глубокий тил Solarized Dark и песочно-жёлтые отблески. */
+:is(:root,.theme-mini)[data-theme="solarized"] {
+  color-scheme: dark;
+  --bg: #002b36;
+  --card-bg: #073642;
+  --accent: #e3b341;
+  --text: #eee8d5;
+  --glow: #e7ad23;
+}
+
+/* Oceanic. Тёмное подводное стекло с бликами цвета морской волны. */
+:is(:root,.theme-mini)[data-theme="oceanic"] {
+  color-scheme: dark;
+  --bg: #0b2226;
+  --card-bg: #153438;
+  --accent: #65ddca;
+  --text: #e6faf6;
+  --glow: #39cfb7;
+}
+
+/* Soft Pastel. Почти белое стекло с лавандовым акцентом и мягкими тенями. */
+:is(:root,.theme-mini)[data-theme="soft-pastel"] {
+  color-scheme: light;
+  --bg: #f7f2fa;
+  --card-bg: #fffbff;
+  --accent: #a77bc7;
+  --text: #342b43;
+  --glow: #d7a6e9;
+}
+
+:root[data-theme="monochrome"] body {
+  background-image: linear-gradient(150deg,#222,#0b0b0b 72%);
+}
+:root[data-theme="monochrome"] :is(.symbol-tile,.connection-dot,.record-dot,.stop),
+:root[data-theme="monochrome"] .connected::before {
+  filter:grayscale(1);
+}
+:root[data-theme]:not([data-theme="system"]) {
+  --base:var(--bg);
+  --panel:var(--card-bg);
+  --ink:var(--text);
+  --accent-color:var(--accent);
+  --sidebar:color-mix(in srgb,var(--bg) 89%,black);
+  --muted:color-mix(in srgb,var(--text) 76%,var(--bg));
+  --line:color-mix(in srgb,var(--text) 20%,var(--card-bg));
+  --field:color-mix(in srgb,var(--text) 9%,var(--card-bg));
+}
+:root:is([data-theme="nordic-frost"],[data-theme="soft-pastel"]) {
+  --sidebar:color-mix(in srgb,var(--bg) 94%,var(--accent));
+}
+.theme-mini[data-theme] {
+  --mini-base:var(--bg);
+  --mini-side:color-mix(in srgb,var(--bg) 91%,var(--accent));
+  --mini-panel:var(--card-bg);
+  --mini-line:color-mix(in srgb,var(--text) 17%,var(--card-bg));
+  --mini-accent:var(--accent);
+}

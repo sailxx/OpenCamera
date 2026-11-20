@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="178" height="48"
+ viewBox="0 0 178 48" role="img" aria-label="Run on Linux">
+ <title>Run on Linux</title>
+ <style>text {font-family: "Golos Text","Segoe UI",system-ui,sans-serif}</style>
+ <defs>
+   <linearGradient id="ground" x2="0" y2="1" gradientUnits="objectBoundingBox">
+     <stop stop-color="#141920"/><stop offset="1" stop-color="#080c13"/>
+   </linearGradient>
+   <radialGradient id="light"><stop stop-color="#276dde" stop-opacity=".29"/>
+     <stop offset="1" stop-color="#276dde" stop-opacity="0"/></radialGradient>
+   <linearGradient id="action"><stop stop-color="#1768ce"/><stop offset="1" stop-color="#123c76"/></linearGradient>
+   <clipPath id="outer"><rect width="178" height="48" rx="21"/></clipPath>
+ </defs>
+ <g clip-path="url(#outer)">
+   <rect x="0" y="0" width="178" height="48" rx="21" fill="url(#ground)" stroke="none"/>
+   <ellipse cx="149.51999999999998" cy="17.28" rx="105.02" ry="43.68" fill="url(#light)"/>
+   <rect x="1" y="1" width="176" height="46" rx="12" fill="url(#action)" stroke="#344d70"/><path d="M19 24h12m-5-5 5 5-5 5" fill="none" stroke="#a7ceff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="42" y="29" font-size="14" fill="#f2f6fc" font-weight="700">Run on Linux</text>
+ </g>
+ <rect x="0.5" y="0.5" width="177" height="47" rx="21" fill="none" stroke="#273346"/>
+</svg>

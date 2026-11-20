@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="345"
+ viewBox="0 0 880 345" role="img" aria-label="What the preview is doing">
+ <title>What the preview is doing</title>
+ <style>text {font-family: "Golos Text","Segoe UI",system-ui,sans-serif}</style>
+ <defs>
+   <linearGradient id="ground" x2="0" y2="1" gradientUnits="objectBoundingBox">
+     <stop stop-color="#141920"/><stop offset="1" stop-color="#080c13"/>
+   </linearGradient>
+   <radialGradient id="light"><stop stop-color="#276dde" stop-opacity=".29"/>
+     <stop offset="1" stop-color="#276dde" stop-opacity="0"/></radialGradient>
+   <linearGradient id="action"><stop stop-color="#1768ce"/><stop offset="1" stop-color="#123c76"/></linearGradient>
+   <clipPath id="outer"><rect width="880" height="345" rx="21"/></clipPath>
+ </defs>
+ <g clip-path="url(#outer)">
+   <rect x="0" y="0" width="880" height="345" rx="21" fill="url(#ground)" stroke="none"/>
+   <ellipse cx="739.1999999999999" cy="124.19999999999999" rx="519.1999999999999" ry="313.95" fill="url(#light)"/>
+   <text x="32" y="40" font-size="12" fill="#83bcff" font-weight="700">PREVIEW STATES</text><text x="32" y="81" font-size="31" fill="#f2f6fc" font-weight="750">What the preview is doing</text><rect x="32" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="47" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="63" y="132" font-size="16" fill="#f2f6fc" font-weight="700">Stopped</text><text x="48" y="160" font-size="14" fill="#aeb9ca" font-weight="400">Select a camera and a capture mode.</text><text x="48" y="181" font-size="14" fill="#aeb9ca" font-weight="400">The device stream is closed.</text><rect x="446" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="461" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="477" y="132" font-size="16" fill="#f2f6fc" font-weight="700">Starting</text><text x="462" y="160" font-size="14" fill="#aeb9ca" font-weight="400">The video pipeline is opening</text><text x="462" y="181" font-size="14" fill="#aeb9ca" font-weight="400">and negotiating a stream.</text><rect x="32" y="217" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="47" y="232" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="63" y="242" font-size="16" fill="#f2f6fc" font-weight="700">Capturing</text><text x="48" y="270" font-size="14" fill="#aeb9ca" font-weight="400">The app draws the video and</text><text x="48" y="291" font-size="14" fill="#aeb9ca" font-weight="400">reports the measured source FPS.</text><rect x="446" y="217" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="461" y="232" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="477" y="242" font-size="16" fill="#f2f6fc" font-weight="700">Interrupted</text><text x="462" y="270" font-size="14" fill="#aeb9ca" font-weight="400">Read the error in Diagnostics.</text><text x="462" y="291" font-size="14" fill="#aeb9ca" font-weight="400">Reconnect the device and retry.</text>
+ </g>
+ <rect x="0.5" y="0.5" width="879" height="344" rx="21" fill="none" stroke="#273346"/>
+</svg>

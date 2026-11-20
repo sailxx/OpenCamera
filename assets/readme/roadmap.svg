@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="345"
+ viewBox="0 0 880 345" role="img" aria-label="From preview to production">
+ <title>From preview to production</title>
+ <style>text {font-family: "Golos Text","Segoe UI",system-ui,sans-serif}</style>
+ <defs>
+   <linearGradient id="ground" x2="0" y2="1" gradientUnits="objectBoundingBox">
+     <stop stop-color="#141920"/><stop offset="1" stop-color="#080c13"/>
+   </linearGradient>
+   <radialGradient id="light"><stop stop-color="#276dde" stop-opacity=".29"/>
+     <stop offset="1" stop-color="#276dde" stop-opacity="0"/></radialGradient>
+   <linearGradient id="action"><stop stop-color="#1768ce"/><stop offset="1" stop-color="#123c76"/></linearGradient>
+   <clipPath id="outer"><rect width="880" height="345" rx="21"/></clipPath>
+ </defs>
+ <g clip-path="url(#outer)">
+   <rect x="0" y="0" width="880" height="345" rx="21" fill="url(#ground)" stroke="none"/>
+   <ellipse cx="739.1999999999999" cy="124.19999999999999" rx="519.1999999999999" ry="313.95" fill="url(#light)"/>
+   <text x="32" y="40" font-size="12" fill="#83bcff" font-weight="700">ROADMAP</text><text x="32" y="81" font-size="31" fill="#f2f6fc" font-weight="750">From preview to production</text><rect x="32" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="47" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="63" y="132" font-size="16" fill="#f2f6fc" font-weight="700">IN SOURCE · Camera foundation</text><text x="48" y="160" font-size="14" fill="#aeb9ca" font-weight="400">Device selection, preview, driver</text><text x="48" y="181" font-size="14" fill="#aeb9ca" font-weight="400">controls and diagnostics.</text><rect x="446" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="461" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="477" y="132" font-size="16" fill="#f2f6fc" font-weight="700">NEXT · Linux validation</text><text x="462" y="160" font-size="14" fill="#aeb9ca" font-weight="400">Verify the desktop UI and test on</text><text x="462" y="181" font-size="14" fill="#aeb9ca" font-weight="400">physical cameras at advertised rates.</text><rect x="32" y="217" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="47" y="232" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="63" y="242" font-size="16" fill="#f2f6fc" font-weight="700">PLANNED · Capture tools</text><text x="48" y="270" font-size="14" fill="#aeb9ca" font-weight="400">Recording, overlays, effects</text><text x="48" y="291" font-size="14" fill="#aeb9ca" font-weight="400">and virtual camera output.</text><rect x="446" y="217" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="461" y="232" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="477" y="242" font-size="16" fill="#f2f6fc" font-weight="700">PLANNED · Distribution</text><text x="462" y="270" font-size="14" fill="#aeb9ca" font-weight="400">Package and verify Linux builds.</text><text x="462" y="291" font-size="14" fill="#aeb9ca" font-weight="400">AppImage, Debian and RPM are targets.</text>
+ </g>
+ <rect x="0.5" y="0.5" width="879" height="344" rx="21" fill="none" stroke="#273346"/>
+</svg>
