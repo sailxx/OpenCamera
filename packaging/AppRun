@@ -15,6 +15,8 @@ export GST_PLUGIN_SCANNER="$libs/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner"
 export GST_REGISTRY="${XDG_CACHE_HOME:-$HOME/.cache}/open-camera/gstreamer-appimage.bin"
 export GSK_RENDERER="${GSK_RENDERER:-cairo}"
 export GIO_MODULE_DIR="$libs/gio/modules"
+export FONTCONFIG_FILE="$root/etc/fonts/fonts.conf"
+export FONTCONFIG_PATH="$root/etc/fonts"
 
 # The Ubuntu cache records absolute host paths. Relocate its entries for this mount.
 loaders="$libs/gdk-pixbuf-2.0/2.10.0"

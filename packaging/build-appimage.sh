@@ -23,9 +23,10 @@ cp -a /usr/lib/python3 /usr/lib/python3.12 "$appdir/usr/lib/"
 python_binary=$(readlink -f /usr/bin/python3)
 install -Dm755 "$python_binary" "$appdir/usr/bin/python3"
 install -Dm755 /usr/bin/v4l2-ctl "$appdir/usr/bin/v4l2-ctl"
-for folder in glib-2.0 icons gtk-4.0 mime; do
+for folder in fonts glib-2.0 icons gtk-4.0 mime; do
   if [[ -d "/usr/share/$folder" ]]; then cp -a "/usr/share/$folder" "$appdir/usr/share/"; fi
 done
+install -Dm644 packaging/appimage-fonts.conf "$appdir/etc/fonts/fonts.conf"
 glib-compile-schemas "$appdir/usr/share/glib-2.0/schemas"
 loaders="$library_dir/gdk-pixbuf-2.0/2.10.0"
 if [[ -s "$loaders/loaders.cache" ]]; then
