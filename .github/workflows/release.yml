@@ -73,7 +73,7 @@ jobs:
               python3 python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-gstreamer-1.0 \
               gir1.2-gst-plugins-base-1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
               v4l-utils libglib2.0-bin adwaita-icon-theme libgdk-pixbuf2.0-bin \
-              ca-certificates curl desktop-file-utils squashfs-tools
+              ca-certificates curl desktop-file-utils file squashfs-tools
             bash packaging/build-appimage.sh "$VERSION"
           '
       - name: Smoke-test AppImage in a fresh Ubuntu container
