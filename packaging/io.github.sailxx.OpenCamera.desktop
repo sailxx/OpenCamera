@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Open Camera
+Comment=Preview and configure Video4Linux cameras
+Exec=open-camera
+Icon=io.github.sailxx.OpenCamera
+Terminal=false
+Categories=AudioVideo;Video;
+StartupNotify=true

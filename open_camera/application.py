@@ -2,6 +2,7 @@
 
 from concurrent.futures import ThreadPoolExecutor
 import shutil
+import sys
 
 import gi
 
@@ -29,12 +30,14 @@ def dropdown():
 
 
 class OpenCamera(Adw.Application):
-    def __init__(self, use_test_source=False):
+    def __init__(self, use_test_source=False, *, smoke_test=False):
         super().__init__(
             application_id="io.github.sailxx.OpenCamera",
             flags=Gio.ApplicationFlags.NON_UNIQUE if use_test_source else Gio.ApplicationFlags.DEFAULT_FLAGS,
         )
         self.use_test_source = use_test_source
+        self.smoke_test = smoke_test
+        self.smoke_status = 1
         self.pool = ThreadPoolExecutor(max_workers=1)
         self.selection = 0
         self.closed = False
@@ -88,7 +91,21 @@ class OpenCamera(Adw.Application):
         sidebar.select_row(sidebar.get_row_at_index(0))
 
         self.window.present()
+        if self.smoke_test:
+            GLib.timeout_add_seconds(20, self.finish_smoke, "Timed out waiting for synthetic frames.")
         self.scan()
+
+    def run(self, argv):
+        status = super().run(argv)
+        return self.smoke_status if self.smoke_test else status
+
+    def finish_smoke(self, error=None):
+        if error:
+            print(error, file=sys.stderr)
+        else:
+            self.smoke_status = 0
+        self.window.close()
+        return GLib.SOURCE_REMOVE
 
     def build_camera(self):
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16,
@@ -289,6 +306,9 @@ class OpenCamera(Adw.Application):
         self.show_controls(controls)
         self.set_busy(False)
         self.notify(self.device_issues[0] if self.device_issues else "")
+        if self.smoke_test:
+            self.mode_select.set_selected(2)
+            self.toggle_preview(None)
 
     def mode_selected(self, *_args):
         if self.running:
@@ -400,6 +420,9 @@ class OpenCamera(Adw.Application):
     def show_rate(self, fps):
         self.placeholder.set_visible(False)
         self.status.set_text(f"Capture  ·  {fps:.1f} FPS")
+        if self.smoke_test and fps > 0:
+            print(f"Synthetic preview rendered at {fps:.1f} source FPS.")
+            GLib.idle_add(self.finish_smoke)
 
     def stop_preview(self):
         self.preview.stop()
@@ -414,6 +437,8 @@ class OpenCamera(Adw.Application):
         self.stop_preview()
         self.preview_error = message
         self.notify(message)
+        if self.smoke_test:
+            GLib.idle_add(self.finish_smoke, message)
 
     def close_window(self, _window):
         self.closed = True

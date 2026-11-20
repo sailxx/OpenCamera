@@ -1,0 +1,5 @@
+packaging/*.sh text eol=lf
+packaging/AppRun text eol=lf
+packaging/open-camera text eol=lf
+packaging/*.spec text eol=lf
+.github/workflows/*.yml text eol=lf

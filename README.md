@@ -52,9 +52,21 @@ Select a webcam, see its live preview, choose a capture mode and adjust the cont
 
 <img src="assets/readme/roadmap.svg" width="100%" alt="Camera foundation, Linux validation, capture tools, and AppImage, Debian and RPM packaging">
 
-The camera foundation is in the source tree. The Python V4L2 tests have passed on Windows. The native window and physical-camera capture still need validation on Linux. Recording, overlays, effects, virtual camera output and packaged installers are planned.
+The camera foundation is in the source tree. Physical-camera capture still needs validation on Linux. Recording, overlays, effects and virtual camera output are planned.
 
 <h2 id="run-on-linux">Run on Linux</h2>
+
+Download a package and its SHA-256 checksums from [GitHub Releases](https://github.com/sailxx/OpenCamera/releases).
+
+| Package | Install or launch |
+| --- | --- |
+| `.deb` | `sudo apt install ./open-camera_0.1.0_all.deb` on Ubuntu 24.04 or compatible systems |
+| `.rpm` | `sudo dnf install ./open-camera-0.1.0-1.fc44.noarch.rpm` on Fedora 44 |
+| AppImage | `chmod +x OpenCamera-0.1.0-x86_64.AppImage` then run it on x86_64 Linux with glibc 2.39 or newer |
+
+If FUSE is unavailable, run the AppImage with `--appimage-extract-and-run`.
+
+### Run from source
 
 Use a Linux desktop with Python 3.10+, GTK 4.8+, libadwaita 1.4+ and GStreamer 1.20+. Run from the repository folder with the system Python so it can find the distribution's PyGObject bindings.
 
