@@ -1,20 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="345"
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="690"
  viewBox="0 0 880 345" role="img" aria-label="From preview to production">
  <title>From preview to production</title>
  <style>text {font-family: "Golos Text","Segoe UI",system-ui,sans-serif}</style>
  <defs>
    <linearGradient id="ground" x2="0" y2="1" gradientUnits="objectBoundingBox">
-     <stop stop-color="#141920"/><stop offset="1" stop-color="#080c13"/>
+     <stop stop-color="#121c2c"/><stop offset="1" stop-color="#080c16"/>
    </linearGradient>
-   <radialGradient id="light"><stop stop-color="#276dde" stop-opacity=".29"/>
-     <stop offset="1" stop-color="#276dde" stop-opacity="0"/></radialGradient>
-   <linearGradient id="action"><stop stop-color="#1768ce"/><stop offset="1" stop-color="#123c76"/></linearGradient>
+   <radialGradient id="light"><stop stop-color="#347eff" stop-opacity=".42"/>
+     <stop offset="1" stop-color="#347eff" stop-opacity="0"/></radialGradient>
+   <linearGradient id="action" x2="0" y2="1"><stop stop-color="#2266d3"/><stop offset="1" stop-color="#12366e"/></linearGradient>
+   <linearGradient id="glass" x2="0" y2="1">
+     <stop stop-color="#233754" stop-opacity=".76"/><stop offset="1" stop-color="#101929" stop-opacity=".88"/>
+   </linearGradient>
+   <linearGradient id="edge">
+     <stop stop-color="#70b3ff" stop-opacity=".68"/><stop offset="1" stop-color="#76a9ff" stop-opacity=".12"/>
+   </linearGradient>
+   <filter id="glow" x="-100%" y="-120%" width="300%" height="340%">
+     <feGaussianBlur stdDeviation="12"/>
+   </filter>
    <clipPath id="outer"><rect width="880" height="345" rx="21"/></clipPath>
  </defs>
  <g clip-path="url(#outer)">
    <rect x="0" y="0" width="880" height="345" rx="21" fill="url(#ground)" stroke="none"/>
-   <ellipse cx="739.1999999999999" cy="124.19999999999999" rx="519.1999999999999" ry="313.95" fill="url(#light)"/>
-   <text x="32" y="40" font-size="12" fill="#83bcff" font-weight="700">ROADMAP</text><text x="32" y="81" font-size="31" fill="#f2f6fc" font-weight="750">From preview to production</text><rect x="32" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="47" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="63" y="132" font-size="16" fill="#f2f6fc" font-weight="700">IN SOURCE · Camera foundation</text><text x="48" y="160" font-size="14" fill="#aeb9ca" font-weight="400">Device selection, preview, driver</text><text x="48" y="181" font-size="14" fill="#aeb9ca" font-weight="400">controls and diagnostics.</text><rect x="446" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="461" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="477" y="132" font-size="16" fill="#f2f6fc" font-weight="700">NEXT · Linux validation</text><text x="462" y="160" font-size="14" fill="#aeb9ca" font-weight="400">Verify the desktop UI and test on</text><text x="462" y="181" font-size="14" fill="#aeb9ca" font-weight="400">physical cameras at advertised rates.</text><rect x="32" y="217" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="47" y="232" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="63" y="242" font-size="16" fill="#f2f6fc" font-weight="700">PLANNED · Capture tools</text><text x="48" y="270" font-size="14" fill="#aeb9ca" font-weight="400">Recording, overlays, effects</text><text x="48" y="291" font-size="14" fill="#aeb9ca" font-weight="400">and virtual camera output.</text><rect x="446" y="217" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="461" y="232" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="477" y="242" font-size="16" fill="#f2f6fc" font-weight="700">PLANNED · Distribution</text><text x="462" y="270" font-size="14" fill="#aeb9ca" font-weight="400">Package and verify Linux builds.</text><text x="462" y="291" font-size="14" fill="#aeb9ca" font-weight="400">AppImage, Debian and RPM are targets.</text>
+   <ellipse cx="695.2" cy="41.4" rx="589.6" ry="310.5" fill="url(#light)"/>
+   <ellipse cx="220.0" cy="396.74999999999994" rx="422.4" ry="276.0" fill="url(#light)" opacity=".48"/>
+   <text x="32" y="40" font-size="12" fill="#83bcff" font-weight="700">ROADMAP</text><text x="32" y="81" font-size="31" fill="#f2f6fc" font-weight="750">From preview to production</text><rect x="40" y="112" width="88" height="18" rx="9" fill="#347eff" opacity=".28" filter="url(#glow)"/><rect x="32" y="107" width="402" height="96" rx="13" fill="url(#glass)" stroke="url(#edge)"/><path d="M54 125l4 4-4 4-4-4Z" fill="#8ecbff"/><text x="68" y="135" font-size="17" fill="#f2f6fc" font-weight="700">SHIPPED · Camera foundation</text><text x="50" y="161" font-size="14" fill="#aeb9ca" font-weight="400">Live preview, driver controls</text><text x="50" y="182" font-size="14" fill="#aeb9ca" font-weight="400">and diagnostics in v0.1.0.</text><rect x="454" y="112" width="88" height="18" rx="9" fill="#347eff" opacity=".28" filter="url(#glow)"/><rect x="446" y="107" width="402" height="96" rx="13" fill="url(#glass)" stroke="url(#edge)"/><path d="M468 125l4 4-4 4-4-4Z" fill="#8ecbff"/><text x="482" y="135" font-size="17" fill="#f2f6fc" font-weight="700">NEXT · Linux validation</text><text x="464" y="161" font-size="14" fill="#aeb9ca" font-weight="400">Verify the desktop UI and test on</text><text x="464" y="182" font-size="14" fill="#aeb9ca" font-weight="400">physical cameras at advertised rates.</text><rect x="40" y="222" width="88" height="18" rx="9" fill="#347eff" opacity=".28" filter="url(#glow)"/><rect x="32" y="217" width="402" height="96" rx="13" fill="url(#glass)" stroke="url(#edge)"/><path d="M54 235l4 4-4 4-4-4Z" fill="#8ecbff"/><text x="68" y="245" font-size="17" fill="#f2f6fc" font-weight="700">PLANNED · Capture tools</text><text x="50" y="271" font-size="14" fill="#aeb9ca" font-weight="400">Recording, overlays, effects</text><text x="50" y="292" font-size="14" fill="#aeb9ca" font-weight="400">and virtual camera output.</text><rect x="454" y="222" width="88" height="18" rx="9" fill="#347eff" opacity=".28" filter="url(#glow)"/><rect x="446" y="217" width="402" height="96" rx="13" fill="url(#glass)" stroke="url(#edge)"/><path d="M468 235l4 4-4 4-4-4Z" fill="#8ecbff"/><text x="482" y="245" font-size="17" fill="#f2f6fc" font-weight="700">SHIPPED · Linux packages</text><text x="464" y="271" font-size="14" fill="#aeb9ca" font-weight="400">DEB, RPM and AppImage builds</text><text x="464" y="292" font-size="14" fill="#aeb9ca" font-weight="400">with automated launch checks.</text>
  </g>
- <rect x="0.5" y="0.5" width="879" height="344" rx="21" fill="none" stroke="#273346"/>
+ <rect x="0.5" y="0.5" width="879" height="344" rx="21" fill="none" stroke="url(#edge)"/>
 </svg>

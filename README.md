@@ -4,6 +4,8 @@
 
 # Open Camera
 
+**English** · [Русский](README.ru.md) · [Deutsch](README.de.md)
+
 **A native Linux workbench for Video4Linux cameras.**
 
 Select a webcam, see its live preview, choose a capture mode and adjust the controls exposed by the camera driver.
@@ -48,23 +50,42 @@ Select a webcam, see its live preview, choose a capture mode and adjust the cont
 
 <img src="assets/readme/numbers.svg" width="100%" alt="Synthetic test pattern at 30, 60 or 120 FPS, plus three native appearance modes">
 
+## Quick start
+
+1. Connect a webcam and select it in **Device**. Use the refresh button if it was plugged in after opening the app.
+2. Leave the capture mode on **Automatic** for the first run. To request 60 FPS or higher, choose a mode that lists that rate at the desired resolution and format.
+3. Click **Start preview**. The FPS readout measures frames arriving from the source. It can differ from the requested rate and does not measure monitor refresh.
+4. Adjust the controls your driver exposes. **Apply changes** writes the selected values and reads them back.
+
+Open Camera provides a local workbench for configuring and testing a webcam. Version 0.1.0 has no recording, effects processing or virtual camera output.
+
 <h2 id="roadmap">Roadmap</h2>
 
 <img src="assets/readme/roadmap.svg" width="100%" alt="Camera foundation, Linux validation, capture tools, and AppImage, Debian and RPM packaging">
 
-The camera foundation is in the source tree. Physical-camera capture still needs validation on Linux. Recording, overlays, effects and virtual camera output are planned.
-
-<h2 id="run-on-linux">Run on Linux</h2>
-
-Download a package and its SHA-256 checksums from [GitHub Releases](https://github.com/sailxx/OpenCamera/releases).
-
-| Package | Install or launch |
+| Stage | Work |
 | --- | --- |
-| `.deb` | `sudo apt install ./open-camera_0.1.0_all.deb` on Ubuntu 24.04 or compatible systems |
-| `.rpm` | `sudo dnf install ./open-camera-0.1.0-1.fc44.noarch.rpm` on Fedora 44 |
-| AppImage | `chmod +x OpenCamera-0.1.0-x86_64.AppImage` then run it on x86_64 Linux with glibc 2.39 or newer |
+| **Available · v0.1.0** | Camera selection, live preview, source FPS, driver controls, diagnostics and three Linux packages. |
+| **Next · Hardware and reliability** | Validate USB and built-in cameras, check advertised 60+ FPS modes on hardware, and test recovery when a device is busy or unplugged. |
+| **Planned · Capture workflow** | Add photo and video capture, overlays and effects, then explore profiles and virtual camera output. |
 
-If FUSE is unavailable, run the AppImage with `--appimage-extract-and-run`.
+The roadmap sets priorities without target dates.
+
+<h2 id="run-on-linux">📦 Run on Linux</h2>
+
+Download Open Camera **v0.1.0** from [GitHub Releases](https://github.com/sailxx/OpenCamera/releases/tag/v0.1.0).
+
+| Download | Install or launch |
+| --- | --- |
+| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/open-camera_0.1.0_all.deb) | `sudo apt install ./open-camera_0.1.0_all.deb` on Ubuntu 24.04 |
+| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/open-camera-0.1.0-1.fc44.noarch.rpm) | `sudo dnf install ./open-camera-0.1.0-1.fc44.noarch.rpm` on Fedora 44 |
+| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/OpenCamera-0.1.0-x86_64.AppImage) | `chmod +x OpenCamera-0.1.0-x86_64.AppImage` then `./OpenCamera-0.1.0-x86_64.AppImage` on x86_64 Linux with glibc 2.39 or newer |
+
+Start the DEB or RPM installation from the desktop launcher or with `open-camera`. If FUSE is unavailable, launch the AppImage with `./OpenCamera-0.1.0-x86_64.AppImage --appimage-extract-and-run`.
+
+To check the download, save [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/SHA256SUMS) beside the package and run `sha256sum -c --ignore-missing SHA256SUMS` from that directory.
+
+The release workflow installed or launched all three packages and checked live preview using a synthetic source. Physical webcam compatibility still needs validation.
 
 ### Run from source
 
@@ -100,9 +121,19 @@ python3 -m open_camera
 python3 -m open_camera --test-source
 ```
 
-Select **GStreamer test pattern**, choose a rate and click **Start preview**. Physical-device modes depend on the combination the camera and driver advertise. Encoded modes may also require the distribution's decoder package.
+For a DEB or RPM installation use `open-camera --test-source`. Select **GStreamer test pattern**, choose 30, 60 or 120 FPS at 1280 × 720 and click **Start preview**. These rates describe the test source. Physical-device modes depend on the camera and driver.
 
 </details>
+
+### Troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| The camera is missing | Reconnect it, refresh the device list and check **Diagnostics** for missing components or device permissions. |
+| Preview fails to start | Close apps using the camera, try **Automatic**, then check **Diagnostics** for the pipeline error. Encoded modes may require an installed decoder. |
+| The source FPS is below the chosen rate | Check the available rates at that resolution and format. Try a lower resolution or a different USB port and compare the measurement. |
+
+When reporting a problem, include the distribution, camera model, selected capture mode and relevant text from **Diagnostics**.
 
 <h2 id="design">Design</h2>
 
@@ -131,3 +162,9 @@ python3 tools/build_readme_assets.py
 ```
 
 </details>
+
+## About the author
+
+<a href="https://github.com/sailxx"><img src="assets/readme/author.svg" width="100%" alt="sailxx on GitHub"></a>
+
+**sailxx** is the creator of Open Camera and [Tobi](https://github.com/sailxx/Tobi), the project that inspired this README's visual style. Other projects are available on the [GitHub profile](https://github.com/sailxx).

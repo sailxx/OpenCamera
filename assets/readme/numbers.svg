@@ -1,20 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="235"
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="470"
  viewBox="0 0 880 235" role="img" aria-label="Supported modes and local tools">
  <title>Supported modes and local tools</title>
  <style>text {font-family: "Golos Text","Segoe UI",system-ui,sans-serif}</style>
  <defs>
    <linearGradient id="ground" x2="0" y2="1" gradientUnits="objectBoundingBox">
-     <stop stop-color="#141920"/><stop offset="1" stop-color="#080c13"/>
+     <stop stop-color="#121c2c"/><stop offset="1" stop-color="#080c16"/>
    </linearGradient>
-   <radialGradient id="light"><stop stop-color="#276dde" stop-opacity=".29"/>
-     <stop offset="1" stop-color="#276dde" stop-opacity="0"/></radialGradient>
-   <linearGradient id="action"><stop stop-color="#1768ce"/><stop offset="1" stop-color="#123c76"/></linearGradient>
+   <radialGradient id="light"><stop stop-color="#347eff" stop-opacity=".42"/>
+     <stop offset="1" stop-color="#347eff" stop-opacity="0"/></radialGradient>
+   <linearGradient id="action" x2="0" y2="1"><stop stop-color="#2266d3"/><stop offset="1" stop-color="#12366e"/></linearGradient>
+   <linearGradient id="glass" x2="0" y2="1">
+     <stop stop-color="#233754" stop-opacity=".76"/><stop offset="1" stop-color="#101929" stop-opacity=".88"/>
+   </linearGradient>
+   <linearGradient id="edge">
+     <stop stop-color="#70b3ff" stop-opacity=".68"/><stop offset="1" stop-color="#76a9ff" stop-opacity=".12"/>
+   </linearGradient>
+   <filter id="glow" x="-100%" y="-120%" width="300%" height="340%">
+     <feGaussianBlur stdDeviation="12"/>
+   </filter>
    <clipPath id="outer"><rect width="880" height="235" rx="21"/></clipPath>
  </defs>
  <g clip-path="url(#outer)">
    <rect x="0" y="0" width="880" height="235" rx="21" fill="url(#ground)" stroke="none"/>
-   <ellipse cx="739.1999999999999" cy="84.6" rx="519.1999999999999" ry="213.85" fill="url(#light)"/>
-   <text x="32" y="40" font-size="12" fill="#83bcff" font-weight="700">BY THE NUMBERS</text><text x="32" y="81" font-size="31" fill="#f2f6fc" font-weight="750">Supported modes and local tools</text><rect x="32" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="47" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="63" y="132" font-size="16" fill="#f2f6fc" font-weight="700">30 / 60 / 120 FPS</text><text x="48" y="160" font-size="14" fill="#aeb9ca" font-weight="400">Rates provided by the synthetic test source.</text><text x="48" y="181" font-size="14" fill="#aeb9ca" font-weight="400">Physical modes depend on the camera.</text><rect x="446" y="107" width="402" height="96" rx="13" fill="#141d2a" stroke="#27354a"/><rect x="461" y="122" width="7" height="7" rx="3" fill="#539bff" stroke="none"/><text x="477" y="132" font-size="16" fill="#f2f6fc" font-weight="700">3 appearance modes</text><text x="462" y="160" font-size="14" fill="#aeb9ca" font-weight="400">System, light and dark in the native app.</text><text x="462" y="181" font-size="14" fill="#aeb9ca" font-weight="400">The HTML design explores more themes.</text>
+   <ellipse cx="695.2" cy="28.2" rx="589.6" ry="211.5" fill="url(#light)"/>
+   <ellipse cx="220.0" cy="270.25" rx="422.4" ry="188.0" fill="url(#light)" opacity=".48"/>
+   <text x="32" y="40" font-size="12" fill="#83bcff" font-weight="700">BY THE NUMBERS</text><text x="32" y="81" font-size="31" fill="#f2f6fc" font-weight="750">Supported modes and local tools</text><rect x="40" y="112" width="88" height="18" rx="9" fill="#347eff" opacity=".28" filter="url(#glow)"/><rect x="32" y="107" width="402" height="96" rx="13" fill="url(#glass)" stroke="url(#edge)"/><path d="M54 125l4 4-4 4-4-4Z" fill="#8ecbff"/><text x="68" y="135" font-size="17" fill="#f2f6fc" font-weight="700">30 / 60 / 120 FPS</text><text x="50" y="161" font-size="14" fill="#aeb9ca" font-weight="400">Rates provided by the synthetic test source.</text><text x="50" y="182" font-size="14" fill="#aeb9ca" font-weight="400">Physical modes depend on the camera.</text><rect x="454" y="112" width="88" height="18" rx="9" fill="#347eff" opacity=".28" filter="url(#glow)"/><rect x="446" y="107" width="402" height="96" rx="13" fill="url(#glass)" stroke="url(#edge)"/><path d="M468 125l4 4-4 4-4-4Z" fill="#8ecbff"/><text x="482" y="135" font-size="17" fill="#f2f6fc" font-weight="700">3 appearance modes</text><text x="464" y="161" font-size="14" fill="#aeb9ca" font-weight="400">System, light and dark in the native app.</text><text x="464" y="182" font-size="14" fill="#aeb9ca" font-weight="400">The HTML design explores more themes.</text>
  </g>
- <rect x="0.5" y="0.5" width="879" height="234" rx="21" fill="none" stroke="#273346"/>
+ <rect x="0.5" y="0.5" width="879" height="234" rx="21" fill="none" stroke="url(#edge)"/>
 </svg>

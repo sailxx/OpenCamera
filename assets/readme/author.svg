@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="288"
+ viewBox="0 0 880 144" role="img" aria-label="sailxx on GitHub">
+ <title>sailxx on GitHub</title>
+ <style>text {font-family: "Golos Text","Segoe UI",system-ui,sans-serif}</style>
+ <defs>
+   <linearGradient id="ground" x2="0" y2="1" gradientUnits="objectBoundingBox">
+     <stop stop-color="#121c2c"/><stop offset="1" stop-color="#080c16"/>
+   </linearGradient>
+   <radialGradient id="light"><stop stop-color="#347eff" stop-opacity=".42"/>
+     <stop offset="1" stop-color="#347eff" stop-opacity="0"/></radialGradient>
+   <linearGradient id="action" x2="0" y2="1"><stop stop-color="#2266d3"/><stop offset="1" stop-color="#12366e"/></linearGradient>
+   <linearGradient id="glass" x2="0" y2="1">
+     <stop stop-color="#233754" stop-opacity=".76"/><stop offset="1" stop-color="#101929" stop-opacity=".88"/>
+   </linearGradient>
+   <linearGradient id="edge">
+     <stop stop-color="#70b3ff" stop-opacity=".68"/><stop offset="1" stop-color="#76a9ff" stop-opacity=".12"/>
+   </linearGradient>
+   <filter id="glow" x="-100%" y="-120%" width="300%" height="340%">
+     <feGaussianBlur stdDeviation="12"/>
+   </filter>
+   <clipPath id="outer"><rect width="880" height="144" rx="21"/></clipPath>
+ </defs>
+ <g clip-path="url(#outer)">
+   <rect x="0" y="0" width="880" height="144" rx="21" fill="url(#ground)" stroke="none"/>
+   <ellipse cx="695.2" cy="17.28" rx="589.6" ry="129.6" fill="url(#light)"/>
+   <ellipse cx="220.0" cy="165.6" rx="422.4" ry="115.2" fill="url(#light)" opacity=".48"/>
+   <circle cx="72" cy="72" r="26" fill="#3989ff" opacity=".64" filter="url(#glow)"/><circle cx="72" cy="72" r="32" fill="url(#glass)" stroke="url(#edge)"/><path d="M64 63l4-5h8l4 5h7v19H57V63z" fill="none" stroke="#91c9ff" stroke-width="2" stroke-linejoin="round"/><circle cx="72" cy="72" r="5" fill="none" stroke="#91c9ff" stroke-width="2"/><text x="123" y="70" font-size="33" fill="#f2f6fc" font-weight="750">sailxx</text><text x="124" y="94" font-size="14" fill="#aeb9ca" font-weight="400">Open Camera  /  Tobi</text>
+ </g>
+ <rect x="0.5" y="0.5" width="879" height="143" rx="21" fill="none" stroke="url(#edge)"/>
+</svg>

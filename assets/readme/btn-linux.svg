@@ -1,20 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="178" height="48"
- viewBox="0 0 178 48" role="img" aria-label="Run on Linux">
- <title>Run on Linux</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="356" height="96"
+ viewBox="0 0 178 48" role="img" aria-label="Downloads">
+ <title>Downloads</title>
  <style>text {font-family: "Golos Text","Segoe UI",system-ui,sans-serif}</style>
  <defs>
    <linearGradient id="ground" x2="0" y2="1" gradientUnits="objectBoundingBox">
-     <stop stop-color="#141920"/><stop offset="1" stop-color="#080c13"/>
+     <stop stop-color="#121c2c"/><stop offset="1" stop-color="#080c16"/>
    </linearGradient>
-   <radialGradient id="light"><stop stop-color="#276dde" stop-opacity=".29"/>
-     <stop offset="1" stop-color="#276dde" stop-opacity="0"/></radialGradient>
-   <linearGradient id="action"><stop stop-color="#1768ce"/><stop offset="1" stop-color="#123c76"/></linearGradient>
+   <radialGradient id="light"><stop stop-color="#347eff" stop-opacity=".42"/>
+     <stop offset="1" stop-color="#347eff" stop-opacity="0"/></radialGradient>
+   <linearGradient id="action" x2="0" y2="1"><stop stop-color="#2266d3"/><stop offset="1" stop-color="#12366e"/></linearGradient>
+   <linearGradient id="glass" x2="0" y2="1">
+     <stop stop-color="#233754" stop-opacity=".76"/><stop offset="1" stop-color="#101929" stop-opacity=".88"/>
+   </linearGradient>
+   <linearGradient id="edge">
+     <stop stop-color="#70b3ff" stop-opacity=".68"/><stop offset="1" stop-color="#76a9ff" stop-opacity=".12"/>
+   </linearGradient>
+   <filter id="glow" x="-100%" y="-120%" width="300%" height="340%">
+     <feGaussianBlur stdDeviation="12"/>
+   </filter>
    <clipPath id="outer"><rect width="178" height="48" rx="21"/></clipPath>
  </defs>
  <g clip-path="url(#outer)">
    <rect x="0" y="0" width="178" height="48" rx="21" fill="url(#ground)" stroke="none"/>
-   <ellipse cx="149.51999999999998" cy="17.28" rx="105.02" ry="43.68" fill="url(#light)"/>
-   <rect x="1" y="1" width="176" height="46" rx="12" fill="url(#action)" stroke="#344d70"/><path d="M19 24h12m-5-5 5 5-5 5" fill="none" stroke="#a7ceff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="42" y="29" font-size="14" fill="#f2f6fc" font-weight="700">Run on Linux</text>
+   <ellipse cx="140.62" cy="5.76" rx="119.26" ry="43.2" fill="url(#light)"/>
+   <ellipse cx="44.5" cy="55.199999999999996" rx="85.44" ry="38.400000000000006" fill="url(#light)" opacity=".48"/>
+   <rect x="3" y="3" width="172" height="42" rx="10" fill="url(#action)" stroke="url(#edge)"/><path d="M19 24h12m-5-5 5 5-5 5" fill="none" stroke="#a7ceff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="42" y="29" font-size="14" fill="#f2f6fc" font-weight="700">Downloads</text>
  </g>
- <rect x="0.5" y="0.5" width="177" height="47" rx="21" fill="none" stroke="#273346"/>
+ <rect x="0.5" y="0.5" width="177" height="47" rx="21" fill="none" stroke="url(#edge)"/>
 </svg>
