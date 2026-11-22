@@ -114,7 +114,10 @@ jobs:
         run: |
           sha256sum -- *.deb *.rpm *.AppImage > SHA256SUMS
           cat > "$RUNNER_TEMP/open-camera-release.md" <<'EOF'
-          The native GTK 4 workbench now follows the approved camera design. This update
+          Effects, Overlays and Profiles now have their own pages in the native sidebar.
+          These pages show the Workbench empty states until the underlying features are implemented.
+
+          The native GTK 4 workbench follows the approved camera design. This update
           brings the centered preview controls, aligned cards, blue sliders, and
           the measured FPS meter to the installed Linux application.
 

@@ -171,11 +171,24 @@ class OpenCamera(Adw.Application):
         self.pages = Gtk.Stack(hexpand=True, vexpand=True)
         body.append(self.pages)
         self.pages.add_named(self.build_camera(), "camera")
+        empty_sections = (
+            ("effects", "Effects", "No effects applied", "Live effects are not available in this version."),
+            ("overlays", "Overlays", "No overlays added", "Custom overlays are not available in this version."),
+            ("profiles", "Profiles", "No saved profiles", "Saving camera profiles is not available in this version."),
+        )
+        for name, title, empty_title, description in empty_sections:
+            self.pages.add_named(self.build_empty_section(name, title, empty_title, description), name)
         self.pages.add_named(self.build_diagnostics(), "diagnostics")
         self.pages.add_named(self.build_settings(), "settings")
 
         self.navigation = {}
-        for name, title in (("camera", "Camera"), ("diagnostics", "Diagnostics"), ("settings", "Settings")):
+        sections = (
+            ("camera", "Camera"),
+            *((name, title) for name, title, _, _ in empty_sections),
+            ("diagnostics", "Diagnostics"),
+            ("settings", "Settings"),
+        )
+        for name, title in sections:
             entry = Gtk.Box(spacing=8)
             entry.append(icon(name))
             text = label(title)
@@ -200,6 +213,12 @@ class OpenCamera(Adw.Application):
             if not (ASSETS / "icons" / "oc-still-symbolic.svg").is_file():
                 GLib.idle_add(self.finish_smoke, "The viewfinder's symbolic icon is missing.")
                 return
+            for name, *_ in empty_sections:
+                self.navigation[name].emit("clicked")
+                if self.pages.get_visible_child_name() != name:
+                    GLib.idle_add(self.finish_smoke, f"Could not open the {name} section.")
+                    return
+            self.navigation["camera"].emit("clicked")
             GLib.timeout_add_seconds(20, self.finish_smoke, "Timed out waiting for synthetic frames.")
         self.scan()
 
@@ -377,6 +396,32 @@ class OpenCamera(Adw.Application):
         self.format_select.connect("notify::selected", self.update_rates)
         self.fps_scale.connect("value-changed", self.rate_selected)
         return capture
+
+    def build_empty_section(self, name, title, empty_title, description):
+        page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16,
+                       margin_top=24, margin_bottom=24, margin_start=24, margin_end=24)
+        page.append(label(title, style="title-1"))
+
+        panel = card()
+        panel.add_css_class("empty-section")
+        symbol = icon(name, 24)
+        symbol.add_css_class("symbol-tile")
+        symbol.set_halign(Gtk.Align.CENTER)
+        panel.append(symbol)
+        message = label(empty_title, style="card-title")
+        message.set_halign(Gtk.Align.CENTER)
+        panel.append(message)
+        detail = label(description, style="secondary")
+        detail.set_justify(Gtk.Justification.CENTER)
+        detail.set_halign(Gtk.Align.CENTER)
+        panel.append(detail)
+
+        back = Gtk.Button(label="Back to camera", halign=Gtk.Align.CENTER)
+        back.add_css_class("flat")
+        back.connect("clicked", lambda _button: self.navigate("camera"))
+        panel.append(back)
+        page.append(panel)
+        return page
 
     def build_diagnostics(self):
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12,
