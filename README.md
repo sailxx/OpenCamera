@@ -57,7 +57,7 @@ Select a webcam, see its live preview, choose a capture mode and adjust the cont
 3. Click **Start preview**. The FPS readout measures frames arriving from the source. It can differ from the requested rate and does not measure monitor refresh.
 4. Adjust the controls your driver exposes. **Apply changes** writes the selected values and reads them back.
 
-Open Camera provides a local workbench for configuring and testing a webcam. Version 0.2.0 has no recording, effects processing or virtual camera output.
+Open Camera provides a local workbench for configuring and testing a webcam. Version 0.2.1 has no recording, effects processing or virtual camera output.
 
 <h2 id="roadmap">Roadmap</h2>
 
@@ -65,7 +65,7 @@ Open Camera provides a local workbench for configuring and testing a webcam. Ver
 
 | Stage | Work |
 | --- | --- |
-| **Available · v0.2.0** | Camera selection, live preview, source FPS, driver controls, diagnostics and three Linux packages. |
+| **Available · v0.2.1** | Camera selection, live preview, source FPS, driver controls, diagnostics and three Linux packages. |
 | **Next · Hardware and reliability** | Validate USB and built-in cameras, check advertised 60+ FPS modes on hardware, and test recovery when a device is busy or unplugged. |
 | **Planned · Capture workflow** | Add photo and video capture, overlays and effects, then explore profiles and virtual camera output. |
 
@@ -73,17 +73,17 @@ The roadmap sets priorities without target dates.
 
 <h2 id="run-on-linux">📦 Run on Linux</h2>
 
-Download Open Camera **v0.2.0** from [GitHub Releases](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.0).
+Download Open Camera **v0.2.1** from [GitHub Releases](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.1).
 
 | Download | Install or launch |
 | --- | --- |
-| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/open-camera_0.2.0_all.deb) | `sudo apt install ./open-camera_0.2.0_all.deb` on Ubuntu 24.04 |
-| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/open-camera-0.2.0-1.fc44.noarch.rpm) | `sudo dnf install ./open-camera-0.2.0-1.fc44.noarch.rpm` on Fedora 44 |
-| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/OpenCamera-0.2.0-x86_64.AppImage) | `chmod +x OpenCamera-0.2.0-x86_64.AppImage` then `./OpenCamera-0.2.0-x86_64.AppImage` on x86_64 Linux with glibc 2.39 or newer |
+| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/open-camera_0.2.1_all.deb) | `sudo apt install ./open-camera_0.2.1_all.deb` on Ubuntu 24.04 |
+| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/open-camera-0.2.1-1.fc44.noarch.rpm) | `sudo dnf install ./open-camera-0.2.1-1.fc44.noarch.rpm` on Fedora 44 |
+| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/OpenCamera-0.2.1-x86_64.AppImage) | `chmod +x OpenCamera-0.2.1-x86_64.AppImage` then `./OpenCamera-0.2.1-x86_64.AppImage` on x86_64 Linux with glibc 2.39 or newer |
 
-Start the DEB or RPM installation from the desktop launcher or with `open-camera`. If FUSE is unavailable, launch the AppImage with `./OpenCamera-0.2.0-x86_64.AppImage --appimage-extract-and-run`.
+Start the DEB or RPM installation from the desktop launcher or with `open-camera`. If FUSE is unavailable, launch the AppImage with `./OpenCamera-0.2.1-x86_64.AppImage --appimage-extract-and-run`.
 
-To check the download, save [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/SHA256SUMS) beside the package and run `sha256sum -c --ignore-missing SHA256SUMS` from that directory.
+To check the download, save [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/SHA256SUMS) beside the package and run `sha256sum -c --ignore-missing SHA256SUMS` from that directory.
 
 The release workflow installed or launched all three packages and checked live preview using a synthetic source. Physical webcam compatibility still needs validation.
 

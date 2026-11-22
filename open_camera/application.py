@@ -64,7 +64,7 @@ def dropdown(title, *, width=12, search=False):
 
 
 def heading(symbol, title, subtitle):
-    row = Gtk.Box(spacing=12)
+    row = Gtk.Box(spacing=8)
     tile = icon(symbol)
     tile.add_css_class("symbol-tile")
     tile.add_css_class(f"symbol-{symbol}")
@@ -249,14 +249,14 @@ class OpenCamera(Adw.Application):
         controls = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
         scroller = Gtk.ScrolledWindow(hscrollbar_policy=Gtk.PolicyType.NEVER,
                                       vscrollbar_policy=Gtk.PolicyType.EXTERNAL, vexpand=True)
-        scroller.set_min_content_width(304)
+        scroller.set_min_content_width(312)
         accessible_name(scroller, "Camera controls")
         scroller.set_child(controls)
         workspace.append(scroller)
         controls.append(self.build_capture_modes())
 
         image = card()
-        image.append(heading("image", "Image adjustments", "Controls available on this camera"))
+        image.append(heading("image", "Image adjustments", "Adjust the camera image"))
         image.append(Gtk.Separator())
         self.control_group = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.no_controls = label("No image controls reported.", style="secondary")
@@ -304,6 +304,7 @@ class OpenCamera(Adw.Application):
         video.set_size_request(-1, 256)
         texture = Gdk.Texture.new_from_filename(str(ASSETS / "workbench-scene.jpg"))
         self.scene = Gtk.Picture(paintable=texture, can_shrink=True, content_fit=Gtk.ContentFit.COVER)
+        self.scene.add_css_class("idle-scene")
         video.set_child(self.scene)
         self.picture = Gtk.Picture(can_shrink=True, content_fit=Gtk.ContentFit.CONTAIN)
         video.add_overlay(self.picture)

@@ -14,6 +14,7 @@ Requires:       libadwaita >= 1.4
 Requires:       gstreamer1 >= 1.20
 Requires:       gstreamer1-plugins-base
 Requires:       gstreamer1-plugins-good
+Requires:       librsvg2
 Requires:       v4l-utils
 
 %description

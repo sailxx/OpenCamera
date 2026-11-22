@@ -50,7 +50,7 @@
 .workbench-card:hover { background-color: #fcfcfd; }
 .workbench-dark .workbench-card:hover { background-color: #202227; }
 .device-card { padding-top: 16px; padding-bottom: 16px; }
-.card-title { font-size: 18px; font-weight: 650; }
+.card-title { font-size: 17px; font-weight: 650; }
 .secondary { color: alpha(currentColor, 0.76); font-size: 13px; }
 .symbol-tile {
   padding: 8px;
@@ -66,6 +66,7 @@
 .workbench-card dropdown > button, .refresh-button { border-radius: 8px; }
 .workbench-card dropdown popover > contents { border-radius: 12px; }
 .viewfinder { border-radius: 8px; background-color: #08090b; }
+.idle-scene { opacity: 0.70; }
 .idle-panel {
   min-width: 252px;
   border-radius: 16px;
@@ -132,6 +133,7 @@
 }
 .capture-slider trough highlight { background-color: @workbench_blue; min-height: 4px; }
 .capture-slider slider {
+  margin: -5px;
   min-width: 10px;
   min-height: 10px;
   border: 2px solid @workbench_blue;
