@@ -16,7 +16,7 @@ Wähle eine Video4Linux2-Kamera, starte die Live-Vorschau und ändere die Einste
 
 <img src="assets/readme/hero.svg" width="100%" alt="Open Camera. Die Abbildung zeigt den interaktiven Designprototyp.">
 
-## Funktionen in v0.1.0
+## Funktionen in v0.2.0
 
 - **Kameraauswahl.** Die Liste der V4L2-Geräte lässt sich über die Schaltfläche neben der Kameraauswahl aktualisieren.
 - **Live-Vorschau.** GStreamer zeigt einen lokalen Videostream und misst dessen Eingangsbildrate. Die Darstellung läuft über GTK 4.
@@ -34,17 +34,17 @@ Wähle eine Video4Linux2-Kamera, starte die Live-Vorschau und ändere die Einste
 
 <h2 id="run-on-linux">📦 Installation unter Linux</h2>
 
-[Open Camera v0.1.0](https://github.com/sailxx/OpenCamera/releases/tag/v0.1.0) ist in drei Paketformaten verfügbar.
+[Open Camera v0.2.0](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.0) ist in drei Paketformaten verfügbar.
 
 | Download | Installation oder Start |
 | --- | --- |
-| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/open-camera_0.1.0_all.deb) | Ubuntu 24.04 · `sudo apt install ./open-camera_0.1.0_all.deb` |
-| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/open-camera-0.1.0-1.fc44.noarch.rpm) | Fedora 44 · `sudo dnf install ./open-camera-0.1.0-1.fc44.noarch.rpm` |
-| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/OpenCamera-0.1.0-x86_64.AppImage) | Linux x86_64 mit glibc 2.39+ · `chmod +x OpenCamera-0.1.0-x86_64.AppImage`, dann `./OpenCamera-0.1.0-x86_64.AppImage` |
+| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/open-camera_0.2.0_all.deb) | Ubuntu 24.04 · `sudo apt install ./open-camera_0.2.0_all.deb` |
+| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/open-camera-0.2.0-1.fc44.noarch.rpm) | Fedora 44 · `sudo dnf install ./open-camera-0.2.0-1.fc44.noarch.rpm` |
+| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/OpenCamera-0.2.0-x86_64.AppImage) | Linux x86_64 mit glibc 2.39+ · `chmod +x OpenCamera-0.2.0-x86_64.AppImage`, dann `./OpenCamera-0.2.0-x86_64.AppImage` |
 
-Nach der DEB- oder RPM-Installation lässt sich die App über das Anwendungsmenü oder mit `open-camera` öffnen. Wenn FUSE fehlt, starte das AppImage mit `./OpenCamera-0.1.0-x86_64.AppImage --appimage-extract-and-run`.
+Nach der DEB- oder RPM-Installation lässt sich die App über das Anwendungsmenü oder mit `open-camera` öffnen. Wenn FUSE fehlt, starte das AppImage mit `./OpenCamera-0.2.0-x86_64.AppImage --appimage-extract-and-run`.
 
-Lade [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.1.0/SHA256SUMS) in denselben Ordner wie das Paket und führe dort `sha256sum -c --ignore-missing SHA256SUMS` aus, um die Prüfsumme abzugleichen.
+Lade [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.0/SHA256SUMS) in denselben Ordner wie das Paket und führe dort `sha256sum -c --ignore-missing SHA256SUMS` aus, um die Prüfsumme abzugleichen.
 
 Der Start und die Live-Vorschau wurden für alle drei Pakete mit einer synthetischen Videoquelle geprüft. Tests mit echten Webcams stehen noch aus.
 
@@ -90,7 +90,7 @@ Gib bei einer Fehlermeldung Linux-Distribution, Kameramodell, Aufnahmemodus und 
 
 | Abschnitt | Aufgaben |
 | --- | --- |
-| **Verfügbar · v0.1.0** | Kameraauswahl, Vorschau, FPS-Messung, Treibereinstellungen, Diagnose und drei Paketformate. |
+| **Verfügbar · v0.2.0** | Kameraauswahl, Vorschau, FPS-Messung, Treibereinstellungen, Diagnose und drei Paketformate. |
 | **Als Nächstes · Hardware und Stabilität** | USB- und integrierte Webcams testen, Modi ab 60 FPS auf realer Hardware prüfen und den Umgang mit belegten oder getrennten Geräten testen. |
 | **Geplant · Arbeit mit Video** | Fotos und Videoaufnahme, Overlays und Effekte. Danach Profile und virtuelle Kameraausgabe untersuchen. |
 
@@ -98,7 +98,7 @@ Die Roadmap beschreibt Prioritäten ohne feste Termine.
 
 ## Design und Entwicklung
 
-Die Grafik oben zeigt den [interaktiven HTML-Prototyp](design/open-camera-interface-options.html). Lade die Datei herunter und öffne sie im Browser, um simuliertes Video, Effekte und virtuelle Ausgabe zu sehen. Die [Theme-Stile](design/open-camera-themes.css) liegen separat vor. Aufnahme, Effekte und virtuelle Kameraausgabe sind in der nativen Version 0.1.0 noch nicht enthalten.
+Die Grafik oben zeigt den [interaktiven HTML-Prototyp](design/open-camera-interface-options.html). Lade die Datei herunter und öffne sie im Browser, um simuliertes Video, Effekte und virtuelle Ausgabe zu sehen. Die [Theme-Stile](design/open-camera-themes.css) liegen separat vor. Aufnahme, Effekte und virtuelle Kameraausgabe sind in der nativen Version 0.2.0 noch nicht enthalten.
 
 Der Quellcode liegt in [open_camera/](open_camera/), die Tests in [tests/](tests/) und die README-Grafiken in [assets/readme/](assets/readme/). Tests starten mit `python3 -m unittest discover -s tests -v`. Zur Neuerstellung der Grafiken installiere Pillow in der Entwicklungsumgebung und starte `python3 tools/build_readme_assets.py`.
 

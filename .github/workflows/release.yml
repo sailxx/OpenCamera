@@ -40,13 +40,20 @@ jobs:
         run: |
           docker run --rm -v "$PWD:/src" -w /src -e VERSION ubuntu:24.04 bash -euxc '
             apt-get update
-            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xvfb
+            DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xvfb imagemagick xdotool
             bash packaging/build-deb.sh "$VERSION"
             DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "$PWD/dist/open-camera_${VERSION}_all.deb"
             dpkg-query -W open-camera
             cd /tmp
-            bash /src/packaging/smoke-x11.sh open-camera
+            mkdir -p /src/previews
+            OPEN_CAMERA_PREVIEWS=/src/previews bash /src/packaging/smoke-x11.sh open-camera
           '
+      - uses: actions/upload-artifact@v4
+        if: matrix.format == 'deb'
+        with:
+          name: workbench-screenshots
+          path: previews/*.png
+          if-no-files-found: error
       - name: Build and smoke-test Fedora RPM
         if: matrix.format == 'rpm'
         run: |
@@ -107,8 +114,12 @@ jobs:
         run: |
           sha256sum -- *.deb *.rpm *.AppImage > SHA256SUMS
           cat > "$RUNNER_TEMP/open-camera-release.md" <<'EOF'
-          Initial native Linux preview. The packages install GTK 4 Open Camera with
-          camera selection, preview, V4L2 controls and diagnostics.
+          The native GTK 4 workbench now follows the approved camera design. This update
+          brings the centered preview controls, aligned cards, blue sliders, and
+          the measured FPS meter to the installed Linux application.
+
+          Capture controls show the formats and frame rates reported for each available
+          resolution. Camera adjustments can be staged, reset to driver defaults, and applied.
 
           - **DEB** for Ubuntu 24.04 and compatible distributions.
           - **RPM** for Fedora. The workflow installs the package on Fedora 44.

@@ -59,6 +59,7 @@ class Control:
     step: int = 1
     flags: frozenset[str] = frozenset()
     choices: dict[int, str] = field(default_factory=dict)
+    default: int | None = None
 
     @property
     def label(self):
@@ -149,7 +150,8 @@ def parse_controls(output):
             flags = details.partition("flags=")[2]
             current = Control(name, kind, values["value"], values.get("min", 0),
                               values.get("max", 1), max(1, values.get("step", 1)),
-                              frozenset(flag.strip() for flag in flags.split(",") if flag.strip()))
+                              frozenset(flag.strip() for flag in flags.split(",") if flag.strip()),
+                              default=values.get("default"))
             controls.append(current)
         elif current and current.kind in {"menu", "intmenu"}:
             option = re.match(r"\s+(-?\d+):\s+(.+)", line)

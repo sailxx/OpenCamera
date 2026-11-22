@@ -37,6 +37,8 @@ white_balance_auto 0x0098090c (bool) : default=1 value=1
 """
         brightness, automatic, exposure, menu = parse_controls(output)
         self.assertEqual((brightness.minimum, brightness.step, brightness.value), (-64, 2, -4))
+        self.assertEqual([control.default for control in (brightness, automatic, exposure, menu)],
+                         [0, 1, 200, 3])
         self.assertEqual(automatic.value, 1)
         self.assertFalse(exposure.writable)
         self.assertEqual(menu.choices, {1: "Manual Mode", 3: "Aperture Priority Mode"})
@@ -48,6 +50,7 @@ white_balance_auto 0x0098090c (bool) : default=1 value=1
         self.assertEqual(modes, [])
         self.assertEqual(errors, ["Permission denied"])
         self.assertEqual(controls[0].name, "brightness")
+        self.assertIsNone(controls[0].default)
 
     @patch("open_camera.v4l2.invoke")
     def test_write_rejects_invalid_value_before_touching_hardware(self, invoke):
