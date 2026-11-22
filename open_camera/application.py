@@ -30,7 +30,9 @@ ASSETS = Path(__file__).resolve().parent
 
 
 def icon(name, size=16):
-    image = Gtk.Image.new_from_icon_name(f"oc-{name}-symbolic")
+    file = Gio.File.new_for_path(str(ASSETS / "icons" / f"oc-{name}-symbolic.svg"))
+    paintable = Gtk.IconPaintable.new_for_file(file, size, 2)
+    image = Gtk.Image.new_from_paintable(paintable)
     image.set_pixel_size(size)
     return image
 
@@ -139,8 +141,6 @@ class OpenCamera(Adw.Application):
         self.window.connect("close-request", self.close_window)
 
         display = self.window.get_display()
-        icons = Gtk.IconTheme.get_for_display(display)
-        icons.add_search_path(str(ASSETS / "icons"))
         provider = Gtk.CssProvider()
         provider.load_from_path(str(ASSETS / "workbench.css"))
         Gtk.StyleContext.add_provider_for_display(display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
@@ -197,7 +197,7 @@ class OpenCamera(Adw.Application):
 
         self.window.present()
         if self.smoke_test:
-            if not icons.has_icon("oc-still-symbolic"):
+            if not (ASSETS / "icons" / "oc-still-symbolic.svg").is_file():
                 GLib.idle_add(self.finish_smoke, "The viewfinder's symbolic icon is missing.")
                 return
             GLib.timeout_add_seconds(20, self.finish_smoke, "Timed out waiting for synthetic frames.")

@@ -16,7 +16,7 @@
 
 <img src="assets/readme/hero.svg" width="100%" alt="Open Camera. На иллюстрации показан интерактивный прототип интерфейса.">
 
-## Возможности v0.2.1
+## Возможности v0.2.2
 
 - **Выбор камеры.** Список устройств V4L2 обновляется кнопкой рядом с полем выбора камеры.
 - **Предпросмотр.** GStreamer показывает локальный видеопоток и измеряет частоту кадров на входе. Для вывода приложение использует GTK 4.
@@ -34,17 +34,17 @@
 
 <h2 id="run-on-linux">📦 Установка в Linux</h2>
 
-Пакеты [Open Camera v0.2.1](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.1) доступны в трёх форматах.
+Пакеты [Open Camera v0.2.2](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.2) доступны в трёх форматах.
 
 | Скачать | Как установить или запустить |
 | --- | --- |
-| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/open-camera_0.2.1_all.deb) | Ubuntu 24.04 · `sudo apt install ./open-camera_0.2.1_all.deb` |
-| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/open-camera-0.2.1-1.fc44.noarch.rpm) | Fedora 44 · `sudo dnf install ./open-camera-0.2.1-1.fc44.noarch.rpm` |
-| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/OpenCamera-0.2.1-x86_64.AppImage) | Linux x86_64 с glibc 2.39+ · `chmod +x OpenCamera-0.2.1-x86_64.AppImage`, затем `./OpenCamera-0.2.1-x86_64.AppImage` |
+| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.2/open-camera_0.2.2_all.deb) | Ubuntu 24.04 · `sudo apt install ./open-camera_0.2.2_all.deb` |
+| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.2/open-camera-0.2.2-1.fc44.noarch.rpm) | Fedora 44 · `sudo dnf install ./open-camera-0.2.2-1.fc44.noarch.rpm` |
+| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.2/OpenCamera-0.2.2-x86_64.AppImage) | Linux x86_64 с glibc 2.39+ · `chmod +x OpenCamera-0.2.2-x86_64.AppImage`, затем `./OpenCamera-0.2.2-x86_64.AppImage` |
 
-После установки DEB или RPM откройте Open Camera из меню приложений или командой `open-camera`. Если FUSE недоступен, используйте `./OpenCamera-0.2.1-x86_64.AppImage --appimage-extract-and-run`.
+После установки DEB или RPM откройте Open Camera из меню приложений или командой `open-camera`. Если FUSE недоступен, используйте `./OpenCamera-0.2.2-x86_64.AppImage --appimage-extract-and-run`.
 
-Скачайте [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.1/SHA256SUMS) в папку с пакетом и выполните `sha256sum -c --ignore-missing SHA256SUMS`, чтобы сверить контрольную сумму.
+Скачайте [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.2/SHA256SUMS) в папку с пакетом и выполните `sha256sum -c --ignore-missing SHA256SUMS`, чтобы сверить контрольную сумму.
 
 Все три пакета прошли автоматическую проверку запуска и предпросмотра с тестовым источником. Совместимость с физическими веб-камерами ещё предстоит проверить.
 
@@ -90,7 +90,7 @@ python3 -m open_camera
 
 | Этап | Задачи |
 | --- | --- |
-| **Готово · v0.2.1** | Выбор камеры, предпросмотр, измерение FPS, настройки драйвера, диагностика и три формата пакетов. |
+| **Готово · v0.2.2** | Выбор камеры, предпросмотр, измерение FPS, настройки драйвера, диагностика и три формата пакетов. |
 | **Далее · Оборудование и стабильность** | Проверить USB- и встроенные камеры, режимы 60+ FPS на реальном оборудовании и восстановление после отключения или занятости устройства. |
 | **В планах · Работа с видео** | Снимки и запись видео, оверлеи и эффекты. Затем изучить поддержку профилей и виртуальной камеры. |
 
@@ -98,7 +98,7 @@ python3 -m open_camera
 
 ## Дизайн и разработка
 
-На обложке показан [интерактивный HTML-прототип](design/open-camera-interface-options.html). Скачайте файл и откройте его в браузере, чтобы посмотреть имитацию видео, эффектов и виртуальной камеры. [Стили тем](design/open-camera-themes.css) хранятся отдельно. Запись, эффекты и виртуальный вывод пока отсутствуют в нативной версии 0.2.1.
+На обложке показан [интерактивный HTML-прототип](design/open-camera-interface-options.html). Скачайте файл и откройте его в браузере, чтобы посмотреть имитацию видео, эффектов и виртуальной камеры. [Стили тем](design/open-camera-themes.css) хранятся отдельно. Запись, эффекты и виртуальный вывод пока отсутствуют в нативной версии 0.2.2.
 
 Код приложения находится в [open_camera/](open_camera/), тесты — в [tests/](tests/), оформление README — в [assets/readme/](assets/readme/). Команда проверки: `python3 -m unittest discover -s tests -v`. Для пересборки плашек установите Pillow в окружение разработки и запустите `python3 tools/build_readme_assets.py`.
 
