@@ -33,7 +33,7 @@ Select a webcam, see its live preview, choose a capture mode and adjust the cont
 - **Cameras.** Select a V4L2 device and rescan after connecting or disconnecting a camera.
 - **Live preview.** Start and stop a local stream and see the capture rate measured at the source. When available, the app paints frames with the GStreamer GTK 4 sink. It also supports a bounded GTK texture fallback.
 - **Capture modes.** Use automatic negotiation or choose an advertised combination of resolution, pixel format and frame rate. Change modes between preview sessions.
-- **Hardware controls.** Edit the numeric, switch and menu controls reported by the driver. **Apply changes** writes the values and reads the device back.
+- **Hardware controls.** Edit the numeric, switch and menu controls reported by the driver. Changes are sent to the driver as you make them.
 - **Diagnostics and appearance.** Inspect device access, missing dependencies and preview errors. Settings offers system, light and dark appearance.
 
 </details>
@@ -53,11 +53,11 @@ Select a webcam, see its live preview, choose a capture mode and adjust the cont
 ## Quick start
 
 1. Connect a webcam and select it in **Device**. Use the refresh button if it was plugged in after opening the app.
-2. Leave the capture mode on **Automatic** for the first run. To request 60 FPS or higher, choose a mode that lists that rate at the desired resolution and format.
+2. Open Camera selects 60 FPS when the camera reports it, or 59.94 FPS when that is the only near-60 mode. Choose **Automatic** to let the driver negotiate or select one of the reported combinations.
 3. Click **Start preview**. The FPS readout measures frames arriving from the source. It can differ from the requested rate and does not measure monitor refresh.
-4. Adjust the controls your driver exposes. **Apply changes** writes the selected values and reads them back.
+4. Adjust the controls your driver exposes while watching the preview. Changing the resolution, format or frame rate restarts the preview automatically.
 
-Open Camera provides a local workbench for configuring and testing a webcam. Version 0.2.3 has no recording, effects processing or virtual camera output.
+Open Camera provides a local workbench for configuring and testing a webcam. Version 0.2.4 has no recording, effects processing or virtual camera output.
 
 <h2 id="roadmap">Roadmap</h2>
 
@@ -65,7 +65,7 @@ Open Camera provides a local workbench for configuring and testing a webcam. Ver
 
 | Stage | Work |
 | --- | --- |
-| **Available · v0.2.3** | Camera selection, live preview, source FPS, driver controls, diagnostics and three Linux packages. |
+| **Available · v0.2.4** | Camera selection, live preview, source FPS, driver controls, diagnostics and three Linux packages. |
 | **Next · Hardware and reliability** | Validate USB and built-in cameras, check advertised 60+ FPS modes on hardware, and test recovery when a device is busy or unplugged. |
 | **Planned · Capture workflow** | Add photo and video capture, overlays and effects, then explore profiles and virtual camera output. |
 
@@ -73,17 +73,17 @@ The roadmap sets priorities without target dates.
 
 <h2 id="run-on-linux">📦 Run on Linux</h2>
 
-Download Open Camera **v0.2.3** from [GitHub Releases](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.3).
+Download Open Camera **v0.2.4** from [GitHub Releases](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.4).
 
 | Download | Install or launch |
 | --- | --- |
-| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.3/open-camera_0.2.3_all.deb) | `sudo apt install ./open-camera_0.2.3_all.deb` on Ubuntu 24.04 |
-| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.3/open-camera-0.2.3-1.fc44.noarch.rpm) | `sudo dnf install ./open-camera-0.2.3-1.fc44.noarch.rpm` on Fedora 44 |
-| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.3/OpenCamera-0.2.3-x86_64.AppImage) | `chmod +x OpenCamera-0.2.3-x86_64.AppImage` then `./OpenCamera-0.2.3-x86_64.AppImage` on x86_64 Linux with glibc 2.39 or newer |
+| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/open-camera_0.2.4_all.deb) | `sudo apt install ./open-camera_0.2.4_all.deb` on Ubuntu 24.04 |
+| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/open-camera-0.2.4-1.fc44.noarch.rpm) | `sudo dnf install ./open-camera-0.2.4-1.fc44.noarch.rpm` on Fedora 44 |
+| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/OpenCamera-0.2.4-x86_64.AppImage) | `chmod +x OpenCamera-0.2.4-x86_64.AppImage` then `./OpenCamera-0.2.4-x86_64.AppImage` on x86_64 Linux with glibc 2.39 or newer |
 
-Start the DEB or RPM installation from the desktop launcher or with `open-camera`. If FUSE is unavailable, launch the AppImage with `./OpenCamera-0.2.3-x86_64.AppImage --appimage-extract-and-run`.
+Start the DEB or RPM installation from the desktop launcher or with `open-camera`. If FUSE is unavailable, launch the AppImage with `./OpenCamera-0.2.4-x86_64.AppImage --appimage-extract-and-run`.
 
-To check the download, save [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.3/SHA256SUMS) beside the package and run `sha256sum -c --ignore-missing SHA256SUMS` from that directory.
+To check the download, save [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/SHA256SUMS) beside the package and run `sha256sum -c --ignore-missing SHA256SUMS` from that directory.
 
 The release workflow installed or launched all three packages and checked live preview using a synthetic source. Physical webcam compatibility still needs validation.
 

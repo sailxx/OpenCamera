@@ -2,10 +2,40 @@ from fractions import Fraction
 from unittest import TestCase
 from unittest.mock import patch
 
-from open_camera.v4l2 import Control, Device, inspect_device, parse_controls, parse_modes, write_control
+from open_camera.v4l2 import (
+    Control, Device, Mode, apply_control_changes, inspect_device, parse_controls, parse_modes,
+    preferred_mode, write_control,
+)
 
 
 class V4L2Tests(TestCase):
+    def test_prefers_exact_60_fps_with_a_reported_resolution_and_format(self):
+        slow = Mode("MJPG", 3840, 2160, Fraction(30))
+        ntsc = Mode("MJPG", 1920, 1080, Fraction(60000, 1001))
+        sixty = Mode("YUYV", 1280, 720, Fraction(60))
+        smaller = Mode("YUYV", 640, 480, Fraction(60))
+        self.assertEqual(preferred_mode([slow, ntsc, smaller, sixty], require_60=True), sixty)
+        self.assertEqual(preferred_mode([slow, ntsc], require_60=True), ntsc)
+        self.assertIsNone(preferred_mode([slow], require_60=True))
+        self.assertEqual(preferred_mode([slow]), slow)
+
+    @patch("open_camera.v4l2.invoke")
+    def test_live_writes_refresh_driver_values_even_after_one_control_fails(self, invoke):
+        device = Device("/dev/video0", "Webcam")
+        controls = [Control("brightness", "int", 0, 0, 10), Control("autofocus", "bool", 1)]
+        invoke.side_effect = [
+            "", RuntimeError("Device or resource busy"),
+            "brightness 0x00980900 (int) : min=0 max=10 value=4\n"
+            "autofocus 0x009a090c (bool) : value=1 flags=grabbed",
+        ]
+        actual, issues = apply_control_changes(device, controls, {"brightness": 5, "autofocus": 0})
+        self.assertEqual([control.value for control in actual], [4, 1])
+        self.assertFalse(actual[1].writable)
+        self.assertEqual(issues, ["Autofocus: Device or resource busy"])
+        self.assertEqual([call.args[1:] for call in invoke.call_args_list], [
+            ("--set-ctrl", "brightness=5"), ("--set-ctrl", "autofocus=0"), ("--list-ctrls-menus",),
+        ])
+
     def test_discrete_modes_keep_high_rates_and_format_specific_limits(self):
         output = """
     [0]: 'MJPG' (Motion-JPEG, compressed)

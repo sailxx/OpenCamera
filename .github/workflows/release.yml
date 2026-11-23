@@ -114,15 +114,11 @@ jobs:
         run: |
           sha256sum -- *.deb *.rpm *.AppImage > SHA256SUMS
           cat > "$RUNNER_TEMP/open-camera-release.md" <<'EOF'
-          Effects, Overlays and Profiles now have their own pages in the native sidebar.
-          These pages show the Workbench empty states until the underlying features are implemented.
+          Image controls apply to the camera as you change them. Changing resolution,
+          format, or frame rate automatically restarts an active preview.
 
-          The native GTK 4 workbench follows the approved camera design. This update
-          brings the centered preview controls, aligned cards, blue sliders, and
-          the measured FPS meter to the installed Linux application.
-
-          Capture controls show the formats and frame rates reported for each available
-          resolution. Camera adjustments can be staged, reset to driver defaults, and applied.
+          Resolution, format, and frame rate are filtered to camera-reported
+          combinations. Open Camera prefers an advertised 60 FPS mode.
 
           - **DEB** for Ubuntu 24.04 and compatible distributions.
           - **RPM** for Fedora. The workflow installs the package on Fedora 44.

@@ -1,6 +1,7 @@
 """Native GTK entry point and camera workbench."""
 
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import replace
 from pathlib import Path
 import shutil
 import sys
@@ -16,7 +17,7 @@ gi.require_version("GstVideo", "1.0")
 from gi.repository import Adw, Gdk, Gio, GLib, Gst, Gtk, Pango
 
 from .preview import Preview
-from .v4l2 import TEST_DEVICE, inspect_device, scan_devices, write_control
+from .v4l2 import TEST_DEVICE, apply_control_changes, inspect_device, preferred_mode, scan_devices
 
 
 def label(text, *, style=None):
@@ -123,7 +124,14 @@ class OpenCamera(Adw.Application):
         self.formats = []
         self.rates = []
         self.updating_modes = False
-        self.editors = []
+        self.editors = {}
+        self.control_changes = {}
+        self.updating_controls = False
+        self.writing_controls = False
+        self.control_timer = 0
+        self.restart_timer = 0
+        self.active_mode = None
+        self.smoke_reconfigured = False
         self.scan_issues = []
         self.device_issues = []
         self.preview_error = None
@@ -281,21 +289,14 @@ class OpenCamera(Adw.Application):
         self.no_controls = label("No image controls reported.", style="secondary")
         image.append(self.no_controls)
         image.append(self.control_group)
-        actions = Gtk.Box(spacing=8)
         reset_content = Gtk.Box(spacing=4)
         reset_content.append(icon("undo"))
         reset_content.append(label("Reset controls"))
-        self.reset = Gtk.Button(child=reset_content)
+        self.reset = Gtk.Button(child=reset_content, halign=Gtk.Align.START)
         self.reset.add_css_class("flat")
-        self.reset.set_tooltip_text("Stage the camera’s factory defaults")
+        self.reset.set_tooltip_text("Restore the camera’s factory defaults")
         self.reset.connect("clicked", self.reset_controls)
-        actions.append(self.reset)
-        actions.append(Gtk.Box(hexpand=True))
-        self.apply = Gtk.Button(label="Apply", sensitive=False)
-        self.apply.add_css_class("suggested-action")
-        self.apply.connect("clicked", self.apply_controls)
-        actions.append(self.apply)
-        image.append(actions)
+        image.append(self.reset)
         controls.append(image)
 
         info = card()
@@ -477,7 +478,7 @@ class OpenCamera(Adw.Application):
         self.notice.set_visible(bool(message))
         self.update_diagnostics()
 
-    def submit(self, work, completion):
+    def submit(self, work, completion, on_error=None):
         future = self.pool.submit(work)
 
         def deliver():
@@ -485,8 +486,11 @@ class OpenCamera(Adw.Application):
                 try:
                     result = future.result()
                 except Exception as error:
-                    self.set_busy(False)
-                    self.notify(str(error))
+                    if on_error:
+                        on_error(error)
+                    else:
+                        self.set_busy(False)
+                        self.notify(str(error))
                 else:
                     completion(result)
             return GLib.SOURCE_REMOVE
@@ -552,25 +556,25 @@ class OpenCamera(Adw.Application):
         if request != self.selection:
             return
         self.modes, controls, self.device_issues = result
-        self.configure_modes()
+        initial_mode = preferred_mode(self.modes, require_60=True)
+        self.configure_modes(initial_mode)
         self.show_controls(controls)
         self.set_busy(False)
         self.notify(self.device_issues[0] if self.device_issues else "")
         if self.smoke_test:
-            self.size_select.set_selected(1)
-            self.fps_scale.set_value(1)
             if self.selected_mode() is None or self.selected_mode().fps != 60:
                 self.finish_smoke("The capture controls did not select the 60 FPS mode.")
                 return
             self.toggle_preview(None)
 
-    def configure_modes(self):
+    def configure_modes(self, initial_mode=None):
         self.sizes = sorted({(mode.width, mode.height) for mode in self.modes}, reverse=True)
         self.updating_modes = True
         self.size_select.set_model(Gtk.StringList.new(
             ["Automatic"] + [f"{width} × {height}" for width, height in self.sizes]
         ))
-        self.size_select.set_selected(0)
+        size = (initial_mode.width, initial_mode.height) if initial_mode else None
+        self.size_select.set_selected(self.sizes.index(size) + 1 if size else 0)
         self.updating_modes = False
         self.update_formats()
 
@@ -583,7 +587,8 @@ class OpenCamera(Adw.Application):
         self.formats = sorted({mode.fourcc for mode in self.resolution_modes})
         self.updating_modes = True
         self.format_select.set_model(Gtk.StringList.new(self.formats or ["Automatic"]))
-        self.format_select.set_selected(0)
+        preferred = preferred_mode(self.resolution_modes)
+        self.format_select.set_selected(self.formats.index(preferred.fourcc) if preferred else 0)
         self.updating_modes = False
         self.update_rates()
 
@@ -598,7 +603,8 @@ class OpenCamera(Adw.Application):
         )
         self.updating_modes = True
         self.fps_scale.set_range(0, max(1, len(self.rates) - 1))
-        self.fps_scale.set_value(0)
+        preferred = preferred_mode(self.rates)
+        self.fps_scale.set_value(self.rates.index(preferred) if preferred else 0)
         self.updating_modes = False
         self.refresh_mode_sensitivity()
         supported = self.rates
@@ -630,9 +636,22 @@ class OpenCamera(Adw.Application):
         mode = self.selected_mode()
         self.fps_value.set_text(f"{self.format_rate(mode.fps)} FPS" if mode else "Automatic")
         if self.running:
-            self.stop_preview()
+            self.schedule_preview_restart()
         else:
             self.update_meter()
+
+    def schedule_preview_restart(self):
+        if self.restart_timer:
+            GLib.source_remove(self.restart_timer)
+            self.restart_timer = 0
+        if self.running and self.active_mode != self.selected_mode() and not self.writing_controls:
+            self.restart_timer = GLib.timeout_add(150, self.restart_preview)
+
+    def restart_preview(self):
+        self.restart_timer = 0
+        if self.running and not self.writing_controls:
+            self.start_preview()
+        return GLib.SOURCE_REMOVE
 
     def refresh_mode_sensitivity(self):
         self.size_select.set_sensitive(not self.busy and bool(self.sizes))
@@ -640,14 +659,14 @@ class OpenCamera(Adw.Application):
         self.fps_scale.set_sensitive(not self.busy and len(self.rates) > 1)
 
     def show_controls(self, controls):
-        for _control, row, _read, _write in self.editors:
+        for _control, row, _read, _write in self.editors.values():
             self.control_group.remove(row)
         self.editors.clear()
         for control in controls:
             if control.kind == "bool":
                 switch = Gtk.Switch(active=bool(control.value), valign=Gtk.Align.CENTER)
                 accessible_name(switch, control.label)
-                switch.connect("notify::active", self.controls_changed)
+                switch.connect("notify::active", lambda *_args, name=control.name: self.queue_control(name))
                 row = value_row(control.label, switch)
                 read = switch.get_active
                 write = switch.set_active
@@ -656,7 +675,7 @@ class OpenCamera(Adw.Application):
                 picker = dropdown(control.label, width=8)
                 picker.set_model(Gtk.StringList.new(list(control.choices.values())))
                 picker.set_selected(choices.index(control.value) if control.value in choices else Gtk.INVALID_LIST_POSITION)
-                picker.connect("notify::selected", self.controls_changed)
+                picker.connect("notify::selected", lambda *_args, name=control.name: self.queue_control(name))
                 row = value_row(control.label, picker)
 
                 def read(picker=picker, choices=choices):
@@ -666,11 +685,9 @@ class OpenCamera(Adw.Application):
                 def write(value, picker=picker, choices=choices):
                     if value in choices:
                         picker.set_selected(choices.index(value))
-            elif control.kind == "int" and control.minimum < control.maximum:
+            elif control.kind == "int" and control.minimum + control.step <= control.maximum:
                 # Use integer positions so only values valid for the driver's step can be saved.
                 steps = (control.maximum - control.minimum) // control.step
-                if not steps:
-                    continue
                 scale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, steps, 1)
                 scale.set_draw_value(False)
                 scale.set_digits(0)
@@ -687,74 +704,106 @@ class OpenCamera(Adw.Application):
                 def write(value, scale=scale, control=control):
                     scale.set_value((value - control.minimum) // control.step)
 
-                def update_value(_scale, value=value, read=read):
+                def update_value(_scale, value=value, read=read, name=control.name):
                     value.set_text(str(read()))
-                    self.controls_changed()
+                    self.queue_control(name)
 
                 write(control.value)
                 scale.connect("value-changed", update_value)
             elif control.kind == "int":
-                row = value_row(control.label, label(str(control.value), style="secondary"))
-                read = lambda control=control: control.value
-                write = None
+                value = label(str(control.value), style="secondary")
+                row = value_row(control.label, value)
+                read = lambda value=value: int(value.get_text())
+                write = lambda current, value=value: value.set_text(str(current))
             else:
                 continue
             row.add_css_class("control-row")
             row.set_sensitive(control.writable)
             self.control_group.append(row)
-            self.editors.append((control, row, read, write))
+            self.editors[control.name] = (control, row, read, write)
         self.no_controls.set_visible(not self.editors)
-        self.apply.set_visible(any(control.writable and write for control, _row, _read, write in self.editors))
-        self.reset.set_visible(any(control.writable and write and control.default is not None
-                                   for control, _row, _read, write in self.editors))
-        self.controls_changed()
+        self.update_reset_visibility()
+
+    def update_reset_visibility(self):
+        self.reset.set_visible(any(
+            control.writable and control.default is not None and
+            (control.kind != "int" or control.minimum + control.step <= control.maximum)
+            for control, _row, _read, _write in self.editors.values()
+        ))
 
     def reset_controls(self, _button):
-        for control, _row, _read, write in self.editors:
-            if control.writable and write and control.default is not None:
+        for control, _row, read, write in self.editors.values():
+            if (control.writable and control.default is not None and read() != control.default
+                    and (control.kind != "int" or control.minimum + control.step <= control.maximum)):
                 write(control.default)
 
-    def pending_controls(self):
-        changed = []
-        for control, _row, read, _write in self.editors:
-            value = read()
-            if control.writable and value is not None and value != control.value:
-                changed.append((control, value))
-        return changed
-
-    def controls_changed(self, *_args):
-        self.apply.set_sensitive(not self.busy and bool(self.pending_controls()))
-
-    def apply_controls(self, _button):
-        device = self.selected_device()
-        changes = self.pending_controls()
-        if device is None or not changes:
+    def queue_control(self, name):
+        if self.updating_controls or self.busy:
             return
-        self.set_busy(True)
+        control, _row, read, _write = self.editors[name]
+        value = read()
+        if control.writable and value is not None:
+            self.control_changes[name] = value
+            self.refresh_device_sensitivity()
+            self.schedule_control_write()
 
-        def work():
-            issues = []
-            for control, value in changes:
-                try:
-                    write_control(device, control, value)
-                except (RuntimeError, ValueError) as error:
-                    issues.append(f"{control.label}: {error}")
-            _modes, controls, probe_issues = inspect_device(device)
-            return controls, issues + probe_issues
+    def schedule_control_write(self):
+        if self.control_changes and not (self.writing_controls or self.control_timer):
+            # Keep dragging responsive and collapse intermediate slider positions.
+            self.control_timer = GLib.timeout_add(75, self.flush_controls)
 
-        def finish(result):
-            controls, self.device_issues = result
+    def flush_controls(self):
+        self.control_timer = 0
+        device = self.selected_device()
+        if device is None or not self.control_changes:
+            return GLib.SOURCE_REMOVE
+        controls = [editor[0] for editor in self.editors.values()]
+        changes, self.control_changes = self.control_changes, {}
+        self.writing_controls = True
+        self.refresh_device_sensitivity()
+        self.submit(lambda: apply_control_changes(device, controls, changes), self.finish_controls,
+                    lambda error: self.finish_controls((controls, [str(error)])))
+        return GLib.SOURCE_REMOVE
+
+    @staticmethod
+    def editor_shape(control):
+        return replace(control, flags=frozenset(), value=0, default=None)
+
+    def finish_controls(self, result):
+        self.writing_controls = False
+        controls, self.device_issues = result
+        controls = [control for control in controls if control.kind in {"bool", "int"} or control.choices]
+        actual = {control.name: control for control in controls}
+        self.updating_controls = True
+        for name in tuple(self.control_changes):
+            if name not in actual or not actual[name].writable:
+                del self.control_changes[name]
+        shapes = [self.editor_shape(control) for control in controls]
+        if shapes != [self.editor_shape(editor[0]) for editor in self.editors.values()]:
             self.show_controls(controls)
-            self.set_busy(False)
-            self.notify(self.device_issues[0] if self.device_issues else "")
+        for name, (_control, row, read, write) in self.editors.items():
+            reported = actual[name]
+            value = self.control_changes.get(name, reported.value)
+            if read() != value:
+                write(value)
+            row.set_sensitive(reported.writable)
+            self.editors[name] = (reported, row, read, write)
+        self.update_reset_visibility()
+        self.updating_controls = False
+        self.notify(self.device_issues[0] if self.device_issues else "")
+        self.refresh_device_sensitivity()
+        self.schedule_preview_restart()
+        self.schedule_control_write()
 
-        self.submit(work, finish)
+    def refresh_device_sensitivity(self):
+        available = not (self.busy or self.writing_controls or self.control_changes)
+        self.refresh_button.set_sensitive(available)
+        self.device_select.set_sensitive(available and bool(self.devices))
 
     def set_busy(self, busy):
         self.busy = busy
         has_device = self.selected_device() is not None
-        self.refresh_button.set_sensitive(not busy)
-        self.device_select.set_sensitive(not busy and bool(self.devices))
+        self.refresh_device_sensitivity()
         self.refresh_mode_sensitivity()
         self.control_group.set_sensitive(not busy)
         self.reset.set_sensitive(not busy)
@@ -762,33 +811,41 @@ class OpenCamera(Adw.Application):
         self.preview_hint.set_text("Checking the camera…" if busy else
                                    "Start the preview to frame your shot." if has_device else
                                    "Connect a camera to start the preview.")
-        self.controls_changed()
 
     def toggle_preview(self, _button):
         if self.running:
             self.stop_preview()
             self.preview_button.grab_focus()
             return
+        self.start_preview()
+        if self.running:
+            self.stop_button.grab_focus()
+
+    def start_preview(self):
         device = self.selected_device()
         if device is None or self.busy:
             return
+        mode = self.selected_mode()
         self.preview_error = None
-        self.notify("")
+        self.notify(self.device_issues[0] if self.device_issues else "")
         try:
-            self.preview.start(device, self.selected_mode())
+            self.preview.start(device, mode)
         except RuntimeError as error:
             self.preview_failed(str(error))
             return
         self.running = True
+        self.active_mode = mode
+        self.live_chip.remove_css_class("live")
+        self.capture_chip.remove_css_class("live")
+        self.update_meter()
         self.scene.set_visible(False)
         self.placeholder.set_visible(False)
         self.stop_button.set_visible(True)
-        self.stop_button.grab_focus()
         self.status.set_text("Starting capture…")
         self.live_status.set_text("Starting")
 
     def update_meter(self, fps=0):
-        mode = self.selected_mode()
+        mode = self.active_mode if self.running else self.selected_mode()
         target = float(mode.fps) if mode else 0
         active_segments = round(min(1, fps / target) * len(self.rate_segments)) if target else 0
         for index, segment in enumerate(self.rate_segments):
@@ -808,11 +865,20 @@ class OpenCamera(Adw.Application):
         self.update_meter(fps)
         if self.smoke_test and fps > 0:
             print(f"Synthetic preview rendered at {fps:.1f} source FPS.")
-            GLib.idle_add(self.finish_smoke)
+            if not self.smoke_reconfigured:
+                self.smoke_reconfigured = True
+                self.fps_scale.set_value(0)
+                return
+            if self.active_mode and self.active_mode.fps == 30:
+                GLib.idle_add(self.finish_smoke)
 
     def stop_preview(self):
+        if self.restart_timer:
+            GLib.source_remove(self.restart_timer)
+            self.restart_timer = 0
         self.preview.stop()
         self.running = False
+        self.active_mode = None
         self.scene.set_visible(True)
         self.placeholder.set_visible(True)
         self.stop_button.set_visible(False)
@@ -831,6 +897,8 @@ class OpenCamera(Adw.Application):
 
     def close_window(self, _window):
         self.closed = True
-        self.preview.stop()
+        if self.control_timer:
+            GLib.source_remove(self.control_timer)
+        self.stop_preview()
         self.pool.shutdown(wait=False, cancel_futures=True)
         return False

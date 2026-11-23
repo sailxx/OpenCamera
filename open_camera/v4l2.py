@@ -1,6 +1,6 @@
 """Internal interface to v4l-utils. All process invocations use argument arrays."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from fractions import Fraction
 from pathlib import Path
 import os
@@ -137,6 +137,15 @@ def parse_modes(output):
     return sorted(modes, key=lambda mode: (-mode.width * mode.height, -mode.fps, mode.fourcc))
 
 
+def preferred_mode(modes, *, require_60=False):
+    """Choose from reported modes, with exact 60 FPS preferred to 59.94."""
+    if require_60:
+        modes = [mode for mode in modes if mode.fps in (60, Fraction(60000, 1001))]
+    return min(modes, key=lambda mode: (
+        abs(mode.fps - 60), -mode.width * mode.height, mode.fps, mode.fourcc
+    ), default=None)
+
+
 def parse_controls(output):
     controls, current = [], None
     for line in output.splitlines():
@@ -170,11 +179,35 @@ def inspect_device(device):
         modes = []
         issues.append(str(error))
     try:
-        controls = parse_controls(invoke(device.path, "--list-ctrls-menus"))
+        controls = read_controls(device)
     except RuntimeError as error:
         controls = []
         issues.append(str(error))
     return modes, controls, issues
+
+
+def read_controls(device):
+    return parse_controls(invoke(device.path, "--list-ctrls-menus"))
+
+
+def apply_control_changes(device, controls, changes):
+    """Write a batch and refresh the values and availability reported by the driver."""
+    known = {control.name: control for control in controls}
+    issues = []
+    for name, value in changes.items():
+        control = known[name]
+        try:
+            write_control(device, control, value)
+        except (RuntimeError, ValueError) as error:
+            issues.append(f"{control.label}: {error}")
+        else:
+            known[name] = replace(control, value=value)
+    try:
+        actual = read_controls(device)
+    except RuntimeError as error:
+        actual = list(known.values())
+        issues.append(str(error))
+    return actual, issues
 
 
 def write_control(device, control, value):
