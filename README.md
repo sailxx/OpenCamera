@@ -1,10 +1,11 @@
+**English** · [العربية](README.ar.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [Čeština](README.cs.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Ελληνικά](README.el.md) · [Bahasa Indonesia](README.id.md) · [Gaeilge](README.ga.md) · [Italiano](README.it.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Polski](README.pl.md) · [Română](README.ro.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Українська](README.uk.md) · [اردو](README.ur.md) · [ئۇيغۇرچە](README.ug.md) · [Tiếng Việt](README.vi.md)
+
 <div align="center">
 
 <img src="design/open-camera.png" width="104" alt="Open Camera">
 
 # Open Camera
 
-**English** · [Русский](README.ru.md) · [Deutsch](README.de.md)
 
 **A native Linux workbench for Video4Linux cameras.**
 

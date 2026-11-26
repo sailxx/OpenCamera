@@ -1,59 +1,99 @@
+[English](README.md) · [العربية](README.ar.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [Čeština](README.cs.md) · [Français](README.fr.md) · **Deutsch** · [Ελληνικά](README.el.md) · [Bahasa Indonesia](README.id.md) · [Gaeilge](README.ga.md) · [Italiano](README.it.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Polski](README.pl.md) · [Română](README.ro.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Українська](README.uk.md) · [اردو](README.ur.md) · [ئۇيغۇرچە](README.ug.md) · [Tiếng Việt](README.vi.md)
+
 <div align="center">
 
 <img src="design/open-camera.png" width="104" alt="Open Camera">
 
 # Open Camera
 
-[English](README.md) · [Русский](README.ru.md) · **Deutsch**
 
-**Ein natives Linux-Werkzeug zur Einrichtung von Webcams.**
+**Eine native Linux-Workbench für Video4Linux-Kameras.**
 
-Wähle eine Video4Linux2-Kamera, starte die Live-Vorschau und ändere die Einstellungen, die der Kameratreiber anbietet.
+Wählen Sie eine Webcam aus, sehen Sie sich deren Live-Vorschau an, wählen Sie einen Aufnahmemodus und passen Sie die vom Kameratreiber bereitgestellten Steuerelemente an.
 
-[Download](#run-on-linux) · [Schnellstart](#quick-start) · [Roadmap](#roadmap) · [Über den Autor](#author)
+<img src="https://img.shields.io/badge/status-early%20development-2E9BFF" alt="Status: frühe Entwicklung">
+<img src="https://img.shields.io/badge/platform-Linux-2E9BFF" alt="Linux">
+<img src="https://img.shields.io/badge/UI-GTK%204%20%7C%20libadwaita-2E9BFF" alt="GTK 4 und libadwaita">
+<img src="https://img.shields.io/badge/video-GStreamer%20%7C%20V4L2-2E9BFF" alt="GStreamer und V4L2">
+
+<br>
+
+<img src="assets/readme/hero.svg" width="100%" alt="Open Camera, eine native Linux-Kamera-Workbench. Das Bild zeigt den interaktiven Design-Prototyp.">
+
+<a href="#run-on-linux"><img src="assets/readme/btn-linux.svg" height="48" alt="Laufen Sie auf Linux"></a>&nbsp; &nbsp;<a href="#design"><img src="assets/readme/btn-design.svg" height="48" alt="Sehen Sie sich das Design an"></a>&nbsp; &nbsp;<a href="#roadmap"><img src="assets/readme/btn-roadmap.svg" height="48" alt="Sehen Sie sich die Roadmap an"></a>
 
 </div>
 
-<img src="assets/readme/hero.svg" width="100%" alt="Open Camera. Die Abbildung zeigt den interaktiven Designprototyp.">
+<br>
 
-## Funktionen in v0.2.4
-
-- **Kameraauswahl.** Die Liste der V4L2-Geräte lässt sich über die Schaltfläche neben der Kameraauswahl aktualisieren.
-- **Live-Vorschau.** GStreamer zeigt einen lokalen Videostream und misst dessen Eingangsbildrate. Die Darstellung läuft über GTK 4.
-- **Aufnahmemodus.** Der Modus lässt sich automatisch aushandeln oder aus den vom Treiber gemeldeten Kombinationen aus Auflösung, Pixelformat und Bildrate auswählen.
-- **Geräteeinstellungen.** Verfügbare Zahlenwerte, Schalter und Listen lassen sich ändern. Änderungen werden direkt an den Treiber gesendet.
-- **Diagnose.** **Diagnostics** zeigt fehlende Komponenten, Zugriffsprobleme und Fehler beim Start der Vorschau.
-- **Darstellung.** Die native Oberfläche mit GTK 4 und libadwaita kann der Systemeinstellung folgen oder ein helles bzw. dunkles Design verwenden.
-
-<h2 id="quick-start">Schnellstart</h2>
-
-1. Schließe die Webcam an und wähle sie unter **Device**. Wurde die Kamera nach dem Programmstart angeschlossen, aktualisiere die Geräteliste.
-2. Open Camera wählt 60 FPS, wenn die Kamera diesen Modus meldet, oder 59,94 FPS, wenn nur dieser Modus nahe 60 FPS verfügbar ist. Du kannst **Automatic** oder eine unterstützte Kombination wählen.
-3. Klicke auf **Start preview**. Die FPS-Anzeige misst die eingehenden Bilder pro Sekunde. Der Wert kann von der eingestellten Rate abweichen und ist unabhängig von der Bildwiederholrate des Monitors.
-4. Passe die Bildparameter während der Vorschau an. Beim Wechsel der Auflösung, des Formats oder der Bildrate startet die Vorschau automatisch neu.
-
-<h2 id="run-on-linux">📦 Installation unter Linux</h2>
-
-[Open Camera v0.2.4](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.4) ist in drei Paketformaten verfügbar.
-
-| Download | Installation oder Start |
-| --- | --- |
-| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/open-camera_0.2.4_all.deb) | Ubuntu 24.04 · `sudo apt install ./open-camera_0.2.4_all.deb` |
-| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/open-camera-0.2.4-1.fc44.noarch.rpm) | Fedora 44 · `sudo dnf install ./open-camera-0.2.4-1.fc44.noarch.rpm` |
-| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/OpenCamera-0.2.4-x86_64.AppImage) | Linux x86_64 mit glibc 2.39+ · `chmod +x OpenCamera-0.2.4-x86_64.AppImage`, dann `./OpenCamera-0.2.4-x86_64.AppImage` |
-
-Nach der DEB- oder RPM-Installation lässt sich die App über das Anwendungsmenü oder mit `open-camera` öffnen. Wenn FUSE fehlt, starte das AppImage mit `./OpenCamera-0.2.4-x86_64.AppImage --appimage-extract-and-run`.
-
-Lade [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/SHA256SUMS) in denselben Ordner wie das Paket und führe dort `sha256sum -c --ignore-missing SHA256SUMS` aus, um die Prüfsumme abzugleichen.
-
-Der Start und die Live-Vorschau wurden für alle drei Pakete mit einer synthetischen Videoquelle geprüft. Tests mit echten Webcams stehen noch aus.
+<img src="assets/readme/features.svg" width="100%" alt="Kameraerkennung, Live-Vorschau, Aufnahmemodi, Hardwaresteuerung, Diagnose und Erscheinungsbild">
 
 <details>
-<summary><b>Aus dem Quellcode starten</b></summary>
+<summary><b>Mehr zu den Funktionen</b></summary>
 
-Voraussetzungen sind Python 3.10+, GTK 4.8+, libadwaita 1.4+ und GStreamer 1.20+. Führe den Befehl im Repository mit dem System-Python aus, damit PyGObject verfügbar ist.
+- **Kameras.** Wählen Sie ein V4L2-Gerät aus und scannen Sie erneut, nachdem Sie eine Kamera angeschlossen oder getrennt haben.
+- **Live-Vorschau.** Starten und stoppen Sie einen lokalen Stream und sehen Sie sich die an der Quelle gemessene Erfassungsrate an. Sofern verfügbar, malt die App Rahmen mit der Spüle GStreamer GTK 4. Es unterstützt auch einen begrenzten GTK-Textur-Fallback.
+- **Aufnahmemodi.** Nutzen Sie die automatische Aushandlung oder wählen Sie eine angekündigte Kombination aus Auflösung, Pixelformat und Bildrate. Ändern Sie den Modus zwischen den Vorschausitzungen.
+- **Hardware-Steuerung.** Bearbeiten Sie die vom Fahrer gemeldeten numerischen, Schalter- und Menüsteuerungen. Änderungen werden an den Treiber gesendet, sobald Sie sie vornehmen.
+- **Diagnostik und Aussehen.** Überprüfen Sie den Gerätezugriff, fehlende Abhängigkeiten und Vorschaufehler. Die Einstellungen bieten System, helles und dunkles Erscheinungsbild.
 
-**Ubuntu 24.04**
+</details>
+
+<br>
+
+<img src="assets/readme/workflow.svg" width="100%" alt="Wählen Sie ein Gerät und einen Modus aus, starten Sie die Vorschau und passen Sie dann die unterstützten Kamerasteuerungen an">
+
+<br>
+
+<img src="assets/readme/states.svg" width="100%" alt="Vorschaustatus: gestoppt, gestartet, erfasst und unterbrochen">
+
+<br>
+
+<img src="assets/readme/numbers.svg" width="100%" alt="Synthetisches Testmuster bei 30, 60 oder 120 FPS sowie drei native Darstellungsmodi">
+
+## Schnellstart
+
+1. Schließen Sie eine Webcam an und wählen Sie sie aus **Gerät**. Verwenden Sie die Schaltfläche „Aktualisieren“, wenn diese nach dem Öffnen der App angeschlossen wurde.
+2. Open Camera wählt 60 FPS, wenn die Kamera dies meldet, oder 59.94 FPS, wenn dies der einzige Nahe-60-Modus ist. Wählen **Automatisch** um den Fahrer eine der gemeldeten Kombinationen aushandeln oder auswählen zu lassen.
+3. Klicken **Vorschau starten**. Die FPS-Auslesung misst Frames, die von der Quelle kommen. Sie kann von der angeforderten Rate abweichen und misst nicht die Monitoraktualisierung.
+4. Passen Sie die Steuerelemente an, die Ihr Fahrer anzeigt, während Sie die Vorschau ansehen. Durch Ändern der Auflösung, des Formats oder der Bildrate wird die Vorschau automatisch neu gestartet.
+
+Open Camera bietet eine lokale Workbench zum Konfigurieren und Testen einer Webcam. Die Version 0.2.4 verfügt über keine Aufnahme, Effektverarbeitung oder virtuelle Kameraausgabe.
+
+<h2 id="roadmap">Roadmap</h2>
+
+<img src="assets/readme/roadmap.svg" width="100%" alt="Kameragrundlage, Linux-Validierung, Aufnahmetools und AppImage-, Debian- und RPM-Paketierung">
+
+| Bühne | Arbeiten |
+| --- | --- |
+| **Verfügbar · v0.2.4** | Kameraauswahl, Live-Vorschau, Quelle FPS, Treibersteuerung, Diagnose und drei Linux-Pakete. |
+| **Weiter · Hardware und Zuverlässigkeit** | Validieren Sie die USB und die integrierten Kameras, überprüfen Sie die angekündigten 60+ FPS-Modi auf der Hardware und testen Sie die Wiederherstellung, wenn ein Gerät ausgelastet oder nicht angeschlossen ist. |
+| **Geplant · Capture-Workflow** | Fügen Sie Foto- und Videoaufnahmen, Überlagerungen und Effekte hinzu und erkunden Sie dann Profile und die Ausgabe virtueller Kameras. |
+
+Die Roadmap setzt Prioritäten ohne Zieltermine.
+
+<h2 id="run-on-linux">📦 Laufen Sie auf Linux</h2>
+
+Laden Sie Open Camera herunter **v0.2.4** aus [GitHub-Veröffentlichungen](https://github.com/sailxx/OpenCamera/releases/tag/v0.2.4).
+
+| Herunterladen | Installieren oder starten |
+| --- | --- |
+| [DEB](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/open-camera_0.2.4_all.deb) | `sudo apt install ./open-camera_0.2.4_all.deb` auf Ubuntu 24.04 |
+| [RPM](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/open-camera-0.2.4-1.fc44.noarch.rpm) | `sudo dnf install ./open-camera-0.2.4-1.fc44.noarch.rpm` auf Fedora 44 |
+| [AppImage](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/OpenCamera-0.2.4-x86_64.AppImage) | `chmod +x OpenCamera-0.2.4-x86_64.AppImage` Dann `./OpenCamera-0.2.4-x86_64.AppImage` auf x86_64 Linux mit glibc 2.39 oder neuer |
+
+Starten Sie die DEB- oder RPM-Installation über den Desktop-Launcher oder mit `open-camera`. Wenn FUSE nicht verfügbar ist, starten Sie AppImage mit `./OpenCamera-0.2.4-x86_64.AppImage --appimage-extract-and-run`.
+
+Speichern Sie, um den Download zu überprüfen [SHA256SUMS](https://github.com/sailxx/OpenCamera/releases/download/v0.2.4/SHA256SUMS) neben dem Paket und führen Sie es aus `sha256sum -c --ignore-missing SHA256SUMS` aus diesem Verzeichnis.
+
+Der Release-Workflow installierte oder startete alle drei Pakete und überprüfte die Live-Vorschau mithilfe einer synthetischen Quelle. Die physische Webcam-Kompatibilität muss noch überprüft werden.
+
+### Von der Quelle ausführen
+
+Verwenden Sie einen Linux-Desktop mit Python 3.10+, GTK 4.8+, libadwaita 1.4+ und GStreamer 1.20+. Führen Sie es aus dem Repository-Ordner mit dem System-Python aus, damit es die PyGObject-Bindungen der Distribution finden kann.
+
+<details open>
+<summary><b>Ubuntu 24.04 und neuer</b></summary>
 
 ```sh
 sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 \
@@ -62,7 +102,10 @@ sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 \
 python3 -m open_camera
 ```
 
-**Fedora**
+</details>
+
+<details>
+<summary><b>Fedora</b></summary>
 
 ```sh
 sudo dnf install python3-gobject gtk4 libadwaita gstreamer1 \
@@ -72,38 +115,57 @@ python3 -m open_camera
 
 </details>
 
-### Ohne Webcam testen
+<details>
+<summary><b>Testen Sie ohne physische Kamera</b></summary>
 
-Starte `python3 -m open_camera --test-source` oder nach einer DEB- oder RPM-Installation `open-camera --test-source`. Wähle **GStreamer test pattern**, stelle bei 1280 × 720 eine Rate von 30, 60 oder 120 FPS ein und klicke auf **Start preview**. Diese Modi gelten für die Testquelle. Die verfügbaren Bildraten echter Webcams hängen von Gerät und Treiber ab.
+```sh
+python3 -m open_camera --test-source
+```
+
+Für eine DEB- oder RPM-Installation verwenden `open-camera --test-source`. Wählen **GStreamer-Testmuster**, Wählen Sie 30, 60 oder 120 FPS bei 1280 × 720 und klicken Sie **Vorschau starten**. Diese Raten beschreiben die Testquelle. Die Modi für physische Geräte hängen von der Kamera und dem Treiber ab.
+
+</details>
 
 ### Fehlerbehebung
 
-| Symptom | Prüfung |
+| Symptom | Was zu überprüfen ist |
 | --- | --- |
-| Die Kamera fehlt in der Liste | Schließe sie erneut an, aktualisiere die Liste und prüfe unter **Diagnostics** Zugriffsrechte und fehlende Komponenten. |
-| Die Vorschau startet nicht | Schließe andere Programme, die die Kamera verwenden, wähle **Automatic** und prüfe den Streamfehler unter **Diagnostics**. Komprimierte Formate können einen Decoder benötigen. |
-| Die gemessene Rate liegt unter dem gewählten Wert | Prüfe die verfügbaren Raten für Auflösung und Format. Teste eine geringere Auflösung oder einen anderen USB-Anschluss und vergleiche die Messwerte. |
+| Die Kamera fehlt | Schließen Sie es erneut an, aktualisieren Sie die Geräteliste und überprüfen Sie **Diagnose** für fehlende Komponenten oder Geräteberechtigungen. |
+| Die Vorschau startet nicht | Schließen Sie Apps mit der Kamera, versuchen Sie es **Automatisch**, dann prüfen **Diagnose** für den Pipelinefehler. Für codierte Modi ist möglicherweise ein installierter Decoder erforderlich. |
+| Die Quelle FPS liegt unter der gewählten Rate | Überprüfen Sie die verfügbaren Raten bei dieser Auflösung und diesem Format. Versuchen Sie es mit einer niedrigeren Auflösung oder einem anderen USB-Anschluss und vergleichen Sie die Messung. |
 
-Gib bei einer Fehlermeldung Linux-Distribution, Kameramodell, Aufnahmemodus und den relevanten Text aus **Diagnostics** an.
+Wenn Sie ein Problem melden, geben Sie die Verteilung, das Kameramodell, den ausgewählten Aufnahmemodus und den relevanten Text an **Diagnose**.
 
-<h2 id="roadmap">Roadmap</h2>
+<h2 id="design">Design</h2>
 
-| Abschnitt | Aufgaben |
+Das Banner zeigt die **Interaktiver Browser-Prototyp**. Es umfasst simulierte Bilder, Effekte und virtuelle Ausgaben, sodass die Benutzeroberfläche unabhängig von der Kamerahardware erkundet werden kann. Laden Sie die herunter [eigenständiger HTML-Prototyp](design/open-camera-interface-options.html) und öffnen Sie es in einem Browser. Der [Theme-Stylesheet](design/open-camera-themes.css) ist separat erhältlich.
+
+<details>
+<summary><b>Entwicklung und Verifizierung</b></summary>
+
+| Weg | Zweck |
 | --- | --- |
-| **Verfügbar · v0.2.4** | Kameraauswahl, Vorschau, FPS-Messung, Treibereinstellungen, Diagnose und drei Paketformate. |
-| **Als Nächstes · Hardware und Stabilität** | USB- und integrierte Webcams testen, Modi ab 60 FPS auf realer Hardware prüfen und den Umgang mit belegten oder getrennten Geräten testen. |
-| **Geplant · Arbeit mit Video** | Fotos und Videoaufnahme, Overlays und Effekte. Danach Profile und virtuelle Kameraausgabe untersuchen. |
+| [open_camera/](open_camera/) | GTK-Schnittstelle, GStreamer-Vorschau und V4L2-Steuerelemente |
+| [Tests/](tests/) | Tests für V4L2-Parsing und Kontrollvalidierung |
+| [Design/](design/) | Interaktiver Prototyp, Themen, Symbol und Screenshots |
+| [Assets/Readme/](assets/readme/) | README-Karten und Navigationstasten |
 
-Die Roadmap beschreibt Prioritäten ohne feste Termine.
+```sh
+python3 -m unittest discover -s tests -v
+```
 
-## Design und Entwicklung
+Überprüfen Sie auf einem Linux-Desktop Start und Stopp mit dem Testmuster bei 30 und 60 FPS. Überprüfen Sie mit einer physischen Kamera die angekündigten Modi, die gemessene Geschwindigkeit, Änderungen an der Fahrersteuerung und das Verbindungsverhalten.
 
-Die Grafik oben zeigt den [interaktiven HTML-Prototyp](design/open-camera-interface-options.html). Lade die Datei herunter und öffne sie im Browser, um simuliertes Video, Effekte und virtuelle Ausgabe zu sehen. Die [Theme-Stile](design/open-camera-themes.css) liegen separat vor. Aufnahme, Effekte und virtuelle Kameraausgabe sind in der nativen Version 0.2.4 noch nicht enthalten.
+Um die README-Panels neu zu generieren, installieren Sie Pillow in Ihrer Entwicklungsumgebung und führen Sie es aus:
 
-Der Quellcode liegt in [open_camera/](open_camera/), die Tests in [tests/](tests/) und die README-Grafiken in [assets/readme/](assets/readme/). Tests starten mit `python3 -m unittest discover -s tests -v`. Zur Neuerstellung der Grafiken installiere Pillow in der Entwicklungsumgebung und starte `python3 tools/build_readme_assets.py`.
+```sh
+python3 tools/build_readme_assets.py
+```
 
-<h2 id="author">Über den Autor</h2>
+</details>
+
+## Über den Autor
 
 <a href="https://github.com/sailxx"><img src="assets/readme/author.svg" width="100%" alt="sailxx auf GitHub"></a>
 
-**sailxx** hat Open Camera und [Tobi](https://github.com/sailxx/Tobi) erstellt. Das Design der Tobi-README diente als Vorlage. Weitere Projekte findest du im [GitHub-Profil](https://github.com/sailxx).
+**sailxx** ist der Schöpfer von Open Camera und [Tobi](https://github.com/sailxx/Tobi), das Projekt, das den visuellen Stil dieses README inspirierte. Weitere Projekte finden Sie auf der [GitHub-Profil](https://github.com/sailxx).
